@@ -15,9 +15,8 @@
     <url>https://github.com/jenkinsci/autonomiq-plugin</url>
     <description>Plugin to support Autonomiq tests</description>
     <properties>
-        <revision>$1.9</revision>
+	<revision>1.9</revision>
         <changelist>-SNAPSHOT</changelist>
-        <gitHubRepo>jenkinsci/Autonomiq-plugin</gitHubRepo>
         <jenkins.version>2.303.1</jenkins.version>
         <java.level>8</java.level>
     </properties>
@@ -102,10 +101,10 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/${gitHubRepo}.git</connection>
-        <developerConnection>scm:git:git@github.com:${gitHubRepo}.git</developerConnection>
-        <url>https://github.com/${gitHubRepo}</url>
-        <tag>${scmTag}</tag>
+        <connection>scm:git:git://github.com/jenkinsci/Autonomiq-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:jenkinsci/Autonomiq-plugin.git</developerConnection>
+        <url>https://github.com/jenkinsci/Autonomiq-plugin</url>
+        <tag>HEAD</tag>
     </scm>
 
     <repositories>
