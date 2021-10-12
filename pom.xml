@@ -9,14 +9,13 @@
     </parent>
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>autonomiq</artifactId>
-    <version>${revision}${changelist}</version>
+    <version>${revision}</version>
     <packaging>hpi</packaging>
     <name>autonomiq plugin</name>
     <url>https://github.com/jenkinsci/autonomiq-plugin</url>
     <description>Plugin to support Autonomiq tests</description>
     <properties>
         <revision>1.9</revision>
-        <changelist>-SNAPSHOT</changelist>
         <gitHubRepo>jenkinsci/Autonomiq-plugin</gitHubRepo>
         <jenkins.version>2.303.1</jenkins.version>
         <java.level>8</java.level>
