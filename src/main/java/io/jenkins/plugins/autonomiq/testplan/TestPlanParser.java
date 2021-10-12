@@ -18,7 +18,7 @@ import java.util.List;
 public class TestPlanParser {
 
 
-    public class Variable {
+    public static class Variable {
         private String name;
         private String value;
 
@@ -169,6 +169,8 @@ public class TestPlanParser {
                                 break;
                             case "ValidateVariable":
                                 validateVars.add(getVar(elem));
+                                break;
+                            default:
                                 break;
                         }
 
