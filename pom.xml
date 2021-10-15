@@ -7,6 +7,7 @@
         <version>4.16</version>
         <relativePath />
     </parent>
+    <groupId>io.jenkins.plugins</groupId>
     <artifactId>autonomiq</artifactId>
     <version>1.11-SNAPSHOT</version>
     <packaging>hpi</packaging>
