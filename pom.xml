@@ -9,7 +9,7 @@
     </parent>
     <groupId>io.jenkins.plugins</groupId>
     <artifactId>autonomiq</artifactId>
-    <version>1.11</version>
+    <version>1.12-SNAPSHOT</version>
     <packaging>hpi</packaging>
     <name>autonomiq plugin</name>
     <url>https://github.com/jenkinsci/autonomiq-plugin</url>
@@ -102,7 +102,7 @@
         <connection>scm:git:git://github.com/jenkinsci/Autonomiq-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/Autonomiq-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/Autonomiq-plugin</url>
-        <tag>autonomiq-1.11</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <repositories>
