@@ -99,7 +99,7 @@
     </developers>
 
     <scm>
-        <connection>scm:git:https://github.com/jenkinsci/autonomiq-plugin.git</connection>
+        <connection>scm:git:git://github.com/jenkinsci/autonomiq-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/autonomiq-plugin.git</developerConnection>
         <url>https://github.com/jenkinsci/autonomiq-plugin</url>
         <tag>autonomiq-1.14</tag>
