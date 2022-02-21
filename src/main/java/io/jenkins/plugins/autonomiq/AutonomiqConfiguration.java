@@ -5,10 +5,13 @@ import hudson.util.FormValidation;
 import io.jenkins.plugins.autonomiq.service.ServiceAccess;
 import io.jenkins.plugins.autonomiq.util.AiqUtil;
 import jenkins.model.GlobalConfiguration;
+import jenkins.model.Jenkins;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.verb.POST;
+import hudson.util.Secret;
 
 /**
  * Example of Jenkins global configuration.
@@ -27,7 +30,7 @@ public class AutonomiqConfiguration extends GlobalConfiguration {
 
     private String defaultAiqUrl;
     private String defaultLogin;
-    private String defaultPassword;
+    private Secret defaultPassword;
 
 
     public AutonomiqConfiguration() {
@@ -45,7 +48,7 @@ public class AutonomiqConfiguration extends GlobalConfiguration {
     public String getDefaultLogin() {
         return defaultLogin;
     }
-    public String getDefaultPassword() {
+    public Secret getDefaultPassword() {
         return defaultPassword;
     }
 
@@ -54,14 +57,16 @@ public class AutonomiqConfiguration extends GlobalConfiguration {
     public boolean configure(StaplerRequest req, JSONObject formData) throws FormException {
         defaultAiqUrl = formData.getString(DEFAULT_AIQ_URL);
         defaultLogin = formData.getString(DEFAULT_LOGIN);
-        defaultPassword = formData.getString(DEFAULT_PASSWORD);
+        defaultPassword = Secret.fromString(DEFAULT_PASSWORD);
 
         save();
 
         return super.configure(req, formData);
     }
 
+    @POST
     public FormValidation doCheckDefaultAiqUrl(@QueryParameter String value) {
+        Jenkins.get().checkPermission(Jenkins.ADMINISTER);
         if (StringUtils.isEmpty(value)) {
             return FormValidation.warning("Please specify default URL for Autonomiq service.");
         }
@@ -70,13 +75,19 @@ public class AutonomiqConfiguration extends GlobalConfiguration {
         }
         return FormValidation.ok();
     }
+
+    @POST
     public FormValidation doCheckDefaultLogin(@QueryParameter String value) {
+        Jenkins.get().checkPermission(Jenkins.ADMINISTER);
         if (StringUtils.isEmpty(value)) {
             return FormValidation.warning("Please specify a default username.");
         }
         return FormValidation.ok();
     }
+
+    @POST
     public FormValidation doCheckDefaultPassword(@QueryParameter String value) {
+        Jenkins.get().checkPermission(Jenkins.ADMINISTER);
         if (StringUtils.isEmpty(value)) {
             return FormValidation.warning("Please specify a default password.");
         }
@@ -85,9 +96,11 @@ public class AutonomiqConfiguration extends GlobalConfiguration {
 
     // Form validation
     @SuppressWarnings({"ThrowableResultOfMethodCallIgnored", "unused"})
+    @POST
     public FormValidation doTestConnection(@QueryParameter(DEFAULT_AIQ_URL) final String defaultAiqUrl,
                                            @QueryParameter(DEFAULT_LOGIN) final String defaultLogin,
-                                           @QueryParameter(DEFAULT_PASSWORD) final String defaultPassword) {
+                                           @QueryParameter(DEFAULT_PASSWORD) final Secret defaultPassword) {
+    	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
         if (AiqUtil.isNullOrEmpty(defaultAiqUrl)) {
             return FormValidation.error("Default Autonomiq URL is empty!");
@@ -95,7 +108,7 @@ public class AutonomiqConfiguration extends GlobalConfiguration {
         if (AiqUtil.isNullOrEmpty(defaultLogin)) {
             return FormValidation.error("Default username is empty!");
         }
-        if (AiqUtil.isNullOrEmpty(defaultPassword)) {
+        if (AiqUtil.isNullOrEmpty(Secret.toString(defaultPassword))) {
             return FormValidation.error("Default password is empty!");
         }
 

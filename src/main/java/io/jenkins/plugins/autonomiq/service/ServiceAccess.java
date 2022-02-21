@@ -1,6 +1,7 @@
 package io.jenkins.plugins.autonomiq.service;
 
 import com.google.gson.reflect.TypeToken;
+import hudson.util.Secret;
 import io.jenkins.plugins.autonomiq.util.AiqUtil;
 import io.jenkins.plugins.autonomiq.service.types.*;
 import io.jenkins.plugins.autonomiq.util.WebClient;
@@ -28,13 +29,11 @@ public class ServiceAccess {
     private static final String websocketPath = "%s/ws?accountId=%d";
 
     private final String aiqUrl;
-    private Long userId;
     private Integer accountId;
     private WebClient web;
     private String token;
-    private String proxyHost;
-    
-    public ServiceAccess(String proxyHost, String proxyPort, String proxyUser, String proxyPassword, String aiqUrl, String login, String password) throws ServiceException {
+
+    public ServiceAccess(String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, String aiqUrl, String login, Secret password) throws ServiceException {
     	this.aiqUrl = aiqUrl;
         web = new WebClient(proxyHost, proxyPort, proxyUser, proxyPassword);
 
@@ -44,7 +43,7 @@ public class ServiceAccess {
 
     public ServiceAccess(String aiqUrl,
                          String login,
-                         String password) throws ServiceException {
+                         Secret password) throws ServiceException {
         this.aiqUrl = aiqUrl;
         web = new WebClient();
 
@@ -54,16 +53,12 @@ public class ServiceAccess {
     
     private void authenticate(String aiqUrl,
             String login,
-            String password) throws ServiceException {
-    	AuthenticateUserBody authBody = new AuthenticateUserBody(login, password);
-        String authJson = AiqUtil.gson.toJson(authBody);
-
+            Secret password) throws ServiceException {
         try {
 
-            String resp = web.post(String.format(authenticatePath, aiqUrl), authJson, null);
+            String resp = web.post(String.format(authenticatePath, aiqUrl), constructAuthJson(login, password), null);
 
             AuthenticateUserResponse r = AiqUtil.gson.fromJson(resp, AuthenticateUserResponse.class);
-            userId = r.getUserId();
             accountId = r.getUserAccount();
             token = r.getToken();
 
@@ -384,6 +379,11 @@ public class ServiceAccess {
         } catch (Exception e) {
             throw new ServiceException("Exception starting test script generation", e);
         }
+    }
+    
+    private String constructAuthJson(String login, Secret password) {
+    	return  "{" + "\"" +  "username" + "\""+ ":" + "\"" + login +"\""+ ","+
+    "\""+"password"+"\""+ ":" +"\""+ Secret.toString(password)+"\"" +"}";
     }
 
 }

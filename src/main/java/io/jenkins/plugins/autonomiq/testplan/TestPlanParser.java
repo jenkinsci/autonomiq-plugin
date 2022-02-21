@@ -10,6 +10,7 @@ import org.xml.sax.InputSource;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 public class TestPlanParser {
 
 
-    public class Variable {
+    public static class Variable {
         private String name;
         private String value;
 
@@ -53,6 +54,13 @@ public class TestPlanParser {
 
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            try {
+            	factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl",true);
+            	factory.setFeature("http://xml.org/sax/features/external-general-entities",false);
+            	factory.setFeature("http://xml.org/sax/features/external-parameter-entities",false);
+            } catch(ParserConfigurationException exp){
+                exp.printStackTrace();	
+            }
             DocumentBuilder dBuilder = factory.newDocumentBuilder();
 
             doc = dBuilder.parse(new InputSource(is));
@@ -161,6 +169,8 @@ public class TestPlanParser {
                                 break;
                             case "ValidateVariable":
                                 validateVars.add(getVar(elem));
+                                break;
+                            default:
                                 break;
                         }
 
