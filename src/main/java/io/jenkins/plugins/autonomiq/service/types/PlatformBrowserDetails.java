@@ -8,9 +8,11 @@ public class PlatformBrowserDetails {
     private String appiumVersion;
     private String deviceName;
     private String deviceOrientation;
+    private String environmentType;
+    private String sauceConnectProxy;
 
     public PlatformBrowserDetails(String browser, String browserVersion, String platform, String platformVersion,
-    		String appiumVersion, String deviceName, String deviceOrientation) {
+    		String appiumVersion, String deviceName, String deviceOrientation,String environmentType,String sauceConnectProxy) {
         this.browser = browser;
         this.browserVersion = browserVersion;
         this.platform = platform;
@@ -18,6 +20,8 @@ public class PlatformBrowserDetails {
         this.appiumVersion = appiumVersion;
         this.deviceName = deviceName;
         this.deviceOrientation = deviceOrientation;
+        this.environmentType = environmentType;
+        this.sauceConnectProxy=sauceConnectProxy;
     }
 
     public String getBrowser() {
@@ -67,4 +71,19 @@ public class PlatformBrowserDetails {
 	public void setDeviceOrientation(String deviceOrientation) {
 		this.deviceOrientation = deviceOrientation;
 	}
+	public String getEnvironmentType() {
+		return environmentType;
+	}
+
+	public void setEnvironmentType(String environmentType) {
+		this.environmentType = environmentType;
+	}
+	public String getSauceConnectProxyType() {
+			return sauceConnectProxy;
+	}
+
+	public void setSauceConnectProxyType(String sauceConnectProxy) {
+			this.sauceConnectProxy = sauceConnectProxy;
+	}
+	
 }
