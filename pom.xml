@@ -96,6 +96,11 @@
         <name>Mohammed Jameel Uddin</name>
         <email>jameeluddin30@gmail.com</email>
       </developer>
+      <developer>
+        <id>Syambasiva</id>
+        <name>SyambasivaAutonomiq</name>
+        <email>syambasiva@autonomiq.io</email>
+      </developer>
     </developers>
 
     <scm>
