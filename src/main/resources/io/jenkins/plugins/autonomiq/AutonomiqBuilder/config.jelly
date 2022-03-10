@@ -43,7 +43,7 @@
 
     <f:optionalBlock inline="true" field="runTestCases" title="${%RunTestCases}" >
 
-        <f:entry title="${%Platform}" field="platformTestCases">
+      <f:entry title="${%Platform}" field="platformTestCases">
             <f:select />
         </f:entry>
 

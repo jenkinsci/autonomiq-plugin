@@ -172,7 +172,7 @@ public class ServiceAccess {
         List<Long> scriptList = listForItem(scriptId);
 
         List<PlatformBrowserDetails> browserDetails = new LinkedList<>();
-        browserDetails.add(new PlatformBrowserDetails(browser, null, platform, null, null, null, null,null,null));
+        browserDetails.add(new PlatformBrowserDetails(browser,null, platform, null, null, null,null,null,null));
         ExecuteTaskRequest body = new ExecuteTaskRequest(sessionId, testExecutionName, scriptList, executionType,
                 browserDetails, false, null, null);
 

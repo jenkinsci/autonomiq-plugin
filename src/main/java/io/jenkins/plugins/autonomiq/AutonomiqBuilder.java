@@ -421,37 +421,6 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
 
         boolean ok = true;
 
-//        TestPlan plan = null;
-//
-//        String trimmedTestPlan = null;
-//        if (runCaseList != null) {
-//            trimmedTestPlan = runCaseList.trim();
-//        }
-//
-//        if (trimmedTestPlan == null || trimmedTestPlan.length() == 0) {
-//            log.println();
-//            log.println("No test plan specified. All tests from project will run in parallel");
-//        } else {
-//            InputStream is = new ByteArrayInputStream(trimmedTestPlan.getBytes());
-//
-//            TestPlanParser parser;
-//            try {
-//                log.println("Found a test plan and parsing the file");
-//                parser = new TestPlanParser(is, log);
-//                plan = parser.parseTestSequence();
-//
-//                log.println("Test plan parsing completed");
-//                //parser.dumpTest(seq);
-//            } catch (PluginException e) {
-//                log.println("Parsing test plan file failed");
-//                log.println(AiqUtil.getExceptionTrace(e));
-//                run.setResult(Result.FAILURE);
-//                return;
-//            } finally {
-//                is.close();
-//            }
-//        }
-
         AiqUtil.gson.fromJson(project, ProjectData.class);
 
         log.println();
@@ -869,6 +838,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
                      return new ListBoxModel(options);
             	}
             	
+            	
             	return new ListBoxModel();
             		
         }
@@ -1056,12 +1026,13 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
 	            	 for (Environment t1:d)
 	            	 {
 	            		 String z = t1.getenvironmentType(); 	
-	            		 if(z.equalsIgnoreCase("Zalenium"))
+	            		 if(!z.equalsIgnoreCase("Zalenium"))
 	            		 {
-	            			 z="Remote";
-	            		 }   
-	            		 EnvironmentType[i]=z;
+	            			 //z="Remote";
+	            			 EnvironmentType[i]=z;
 		            		 i++;
+	            		 }   
+	            		 
 	            	 }
 	            	
 				}  
