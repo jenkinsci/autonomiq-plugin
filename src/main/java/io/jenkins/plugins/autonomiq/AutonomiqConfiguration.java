@@ -75,7 +75,7 @@ public class AutonomiqConfiguration extends GlobalConfiguration {
         }
         return FormValidation.ok();
     }
-    
+
     @POST
     public FormValidation doCheckDefaultLogin(@QueryParameter String value) {
         Jenkins.get().checkPermission(Jenkins.ADMINISTER);
@@ -84,7 +84,7 @@ public class AutonomiqConfiguration extends GlobalConfiguration {
         }
         return FormValidation.ok();
     }
-    
+
     @POST
     public FormValidation doCheckDefaultPassword(@QueryParameter String value) {
         Jenkins.get().checkPermission(Jenkins.ADMINISTER);
