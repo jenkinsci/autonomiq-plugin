@@ -50,7 +50,6 @@ import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundSetter;
 
 public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
-
     private String aiqUrl;
     private String login;
     private String password;
@@ -72,10 +71,12 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
     private Boolean httpProxy;
     private String executionMode;
     private String environmentType;
+    private String environmentTypeTestcases;
     private String platformVersion;
     private String browserVersion;
     private String sauceConnectProxy;
-
+    private String browserVersionTestcases;
+    private String sauceConnectProxyTestcases;
     private static Long pollingIntervalMs = 10000L;
 
     @DataBoundConstructor
@@ -97,7 +98,11 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
                             String environmentType,
                             String platformVersion,
                             String browserVersion,
-                            String sauceConnectProxy
+                            String sauceConnectProxy,
+                            String environmentTypeTestcases,
+                            String browserVersionTestcases,
+    						String sauceConnectProxyTestcases
+                            
     ) {
 
         this.aiqUrl = aiqUrl;
@@ -124,6 +129,9 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         this.browserVersion=browserVersion;
         this.environmentType=environmentType;
         this.sauceConnectProxy=sauceConnectProxy;
+        this.environmentTypeTestcases=environmentTypeTestcases;
+        this.sauceConnectProxyTestcases=sauceConnectProxyTestcases;
+        this.browserVersionTestcases=browserVersionTestcases;
     }
 
     @SuppressWarnings("unused")
@@ -363,6 +371,18 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
     public String getEnvironmentType() {
         return environmentType;
     }
+    
+    @SuppressWarnings("unused")
+    @DataBoundSetter
+    public void setEnvironmentTypeTestcases(String environmentTypeTestcases) {
+        this.environmentTypeTestcases = environmentTypeTestcases;
+    }
+
+    @SuppressWarnings("unused")
+    public String getEnvironmentTypeTestcases() {
+        return environmentTypeTestcases;
+    }
+
 
     @SuppressWarnings("unused")
     @DataBoundSetter
@@ -388,14 +408,38 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
     
     @SuppressWarnings("unused")
     @DataBoundSetter
-    public void setSauceConnectProxyType(String sauceConnectProxy) {
+    public void setBrowserVersionTestcases(String browserVersionTestcases) {
+        this.browserVersionTestcases = browserVersionTestcases;
+    }
+
+    @SuppressWarnings("unused")
+    public String getBrowserVersionTestcases() {
+        return browserVersionTestcases;
+    }
+    
+    @SuppressWarnings("unused")
+    @DataBoundSetter
+    public void setSauceConnectProxy(String sauceConnectProxy) {
         this.sauceConnectProxy = sauceConnectProxy;
     }
 
     @SuppressWarnings("unused")
-    public String getSauceConnectProxyType() {
+    public String getSauceConnectProxy() {
         return sauceConnectProxy;
     }
+    
+    @SuppressWarnings("unused")
+    @DataBoundSetter
+    public void setSauceConnectProxyTestcases(String sauceConnectProxyTestcases) {
+        this.sauceConnectProxyTestcases = sauceConnectProxyTestcases;
+    }
+
+    @SuppressWarnings("unused")
+    public String getSauceConnectProxyTestcases() {
+        return sauceConnectProxyTestcases;
+    }
+    
+    
     @SuppressWarnings("unused")
     public String getMyString() 
     {
@@ -450,7 +494,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
                 ok = rt.runTests(genScripts, runTestCases, runTestSuites,
                         platformTestCases, browserTestCases,
                         platformTestSuites, browserTestSuites,
-                        genCaseList, runCaseList, runSuiteList, executionMode,environmentType,browserVersion,platformVersion,sauceConnectProxy);
+                        genCaseList, runCaseList, runSuiteList, executionMode,environmentType,browserVersion,platformVersion,sauceConnectProxy,environmentTypeTestcases,browserVersionTestcases,sauceConnectProxyTestcases);
             } catch (PluginException e) {
                 log.println("Running test case failed with exception");
                 log.println(AiqUtil.getExceptionTrace(e));
@@ -516,6 +560,17 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
             return FormValidation.ok();
         }
         
+        @SuppressWarnings("unused")
+        @POST
+        public FormValidation doCheckEnvironmentTypeTestcases(@QueryParameter String value,@QueryParameter String environmentTypeTestcases)
+                throws IOException, ServletException {
+        	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+            if (value.length() == 0)
+                return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingEnvironmentType());
+            else
+            	environmentTypeTestcases=value;
+            return FormValidation.ok();
+        }
         
         @SuppressWarnings("unused")
         @POST
@@ -780,6 +835,121 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
 
         }
         @SuppressWarnings("unused")
+        public ListBoxModel doFillEnvironmentTypeTestcasesItems(@QueryParameter String aiqUrl,
+                @QueryParameter String login,
+                @QueryParameter String password,
+                @QueryParameter String proxyHost,
+                @QueryParameter String proxyPort,
+                @QueryParameter String proxyUser,
+                @QueryParameter String proxyPassword,
+                @QueryParameter Boolean httpProxy) throws ServiceException {
+        	
+        	if (aiqUrl.length() > 0 && login.length() > 0 && password.length() > 0) {
+          
+            String[] values= getEnvironmentType(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+            
+            Option[] options = buildSimpleOptions(values);
+
+            return  new ListBoxModel(options);
+        	}
+        	
+        	return new ListBoxModel(); 
+        }
+        
+        @SuppressWarnings("unused")
+        public ListBoxModel doFillPlatformTestCasesItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String aiqUrl,
+                @QueryParameter String login,
+                @QueryParameter String password,
+                @QueryParameter String proxyHost,
+                @QueryParameter String proxyPort,
+                @QueryParameter String proxyUser,
+                @QueryParameter String proxyPassword,
+                @QueryParameter Boolean httpProxy) throws ServiceException {
+
+        	
+        	if (environmentTypeTestcases.equalsIgnoreCase("Saucelabs")) {
+        	
+            String[] values= getplatformType(environmentTypeTestcases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy); 
+            
+            Option[] options = buildSimpleOptions(values);
+
+            return new ListBoxModel(options);
+        	}
+        	if (environmentTypeTestcases.equalsIgnoreCase("Local"))
+        	{
+        		 String[] values = {"--select platform--","Linux"};  //, "Windows"};
+
+                 Option[] options = buildSimpleOptions(values);
+
+                 return new ListBoxModel(options);
+        	}
+        	
+        	return new ListBoxModel();
+        			
+        }
+        @SuppressWarnings("unused")
+        public ListBoxModel doFillBrowserVersionTestcasesItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String browserTestCases,@QueryParameter String aiqUrl,
+                @QueryParameter String login,
+                @QueryParameter String password,
+                @QueryParameter String proxyHost,
+                @QueryParameter String proxyPort,
+                @QueryParameter String proxyUser,
+                @QueryParameter String proxyPassword,
+                @QueryParameter Boolean httpProxy) throws ServiceException {
+        	
+        	if( environmentTypeTestcases.equalsIgnoreCase("saucelabs"))
+        	{
+           
+        	if (browserTestCases.equalsIgnoreCase("chrome") || browserTestCases.equalsIgnoreCase("firefox") || browserTestCases.equalsIgnoreCase("safari") || browserTestCases.equalsIgnoreCase("MicrosoftEdge")) 
+        	{
+
+            String[] values= getBrowserVersion(browserTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+
+
+            Option[] options = buildSimpleOptions(values);
+
+            return new ListBoxModel(options);
+        	}
+        	}
+        	if( environmentTypeTestcases.equalsIgnoreCase("Local"))
+        	{
+                 String[] values = {"NotApplicable"};  //, "Windows"};
+                 Option[] options = buildSimpleOptions(values);
+
+                 return new ListBoxModel(options);
+        	}
+        	
+        	return new ListBoxModel();
+        }
+        @SuppressWarnings("unused")
+        public ListBoxModel doFillSauceConnectProxyTestcasesItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String aiqUrl,
+                @QueryParameter String login,
+                @QueryParameter String password,
+                @QueryParameter String proxyHost,
+                @QueryParameter String proxyPort,
+                @QueryParameter String proxyUser,
+                @QueryParameter String proxyPassword,
+                @QueryParameter Boolean httpProxy) throws ServiceException
+        {
+        	if (environmentTypeTestcases.equalsIgnoreCase("saucelabs")) {
+        		
+            String[] values= getSauceconnect(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+
+            Option[] options = buildSimpleOptions(values);
+
+            return new ListBoxModel(options);
+        	}
+        	if( environmentTypeTestcases.equalsIgnoreCase("Local"))
+        	{
+                 String[] values = {"NotApplicable"};
+                 Option[] options = buildSimpleOptions(values);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
+                 return new ListBoxModel(options);
+        	}
+        	return new ListBoxModel();
+        }
+        
+        @SuppressWarnings("unused")
         public ListBoxModel doFillEnvironmentTypeItems(@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter String password,
@@ -802,15 +972,6 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         	return new ListBoxModel();     
         }
         
-        @SuppressWarnings("unused")
-        public ListBoxModel doFillPlatformTestCasesItems() {
-
-            String[] values = {"Linux"};  //, "Windows"};
-
-            Option[] options = buildSimpleOptions(values);
-
-            return new ListBoxModel(options);
-        }
         @SuppressWarnings("unused")
         public ListBoxModel doFillPlatformTestSuitesItems(@QueryParameter String environmentType,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
@@ -845,14 +1006,43 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
 
 
         @SuppressWarnings("unused")
-        public ListBoxModel doFillBrowserTestCasesItems() {
+        public ListBoxModel doFillBrowserTestCasesItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String platformTestCases,@QueryParameter String aiqUrl,
+                @QueryParameter String login,
+                @QueryParameter String password,
+                @QueryParameter String proxyHost,
+                @QueryParameter String proxyPort,
+                @QueryParameter String proxyUser,
+                @QueryParameter String proxyPassword,
+                @QueryParameter Boolean httpProxy) throws ServiceException {
+        	
+        	if( environmentTypeTestcases.equalsIgnoreCase("saucelabs"))
+        	{
+        		if (platformTestCases.equalsIgnoreCase("Windows 10") || platformTestCases.equalsIgnoreCase("macOS 10.15") || platformTestCases.equalsIgnoreCase("macOS 11.00")) {
+        			String[] values= getBrowser(environmentTypeTestcases,platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
 
-            String[] values = {"Chrome", "Firefox"};
+            //String[] values = {"Chrome", "Firefox","safari","MicrosoftEdge"};
 
-            Option[] options = buildSimpleOptions(values);
+        			Option[] options = buildSimpleOptions(values);
 
-            return new ListBoxModel(options);
+        			return new ListBoxModel(options);
+        	}
+        	}
+        	
+        	if( environmentTypeTestcases.equalsIgnoreCase("Local"))
+        	{
+        	
+        	if (platformTestCases.equalsIgnoreCase("Linux"))
+        	{
+        		  //, "Windows"};
+                 String[] values = {"--select browser--","Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
+                 Option[] options = buildSimpleOptions(values);
+
+                 return new ListBoxModel(options);
+        	}
+        	}
+        	return new ListBoxModel();
         }
+        
         @SuppressWarnings("unused")
         public ListBoxModel doFillBrowserTestSuitesItems(@QueryParameter String environmentType,@QueryParameter String platformTestSuites,@QueryParameter String aiqUrl,
                 @QueryParameter String login,

@@ -163,7 +163,9 @@ public class ServiceAccess {
     public ExecutedTaskResponse runTestCase(Long projectId, Long scriptId,
                                             String testExecutionName,
                                             String platform, String browser,
-                                            String executionType) throws ServiceException {
+                                            String executionType,String environmentTypeTestcases,String browserVersionTestcases,String sauceConnectProxyTestcases) throws ServiceException {
+    	
+    	
 
         String sessionId = createSession();
 
@@ -172,7 +174,7 @@ public class ServiceAccess {
         List<Long> scriptList = listForItem(scriptId);
 
         List<PlatformBrowserDetails> browserDetails = new LinkedList<>();
-        browserDetails.add(new PlatformBrowserDetails(browser,null, platform, null, null, null,null,null,null));
+        browserDetails.add(new PlatformBrowserDetails(browser,browserVersionTestcases, platform, null, null, null,null,environmentTypeTestcases,sauceConnectProxyTestcases));
         ExecuteTaskRequest body = new ExecuteTaskRequest(sessionId, testExecutionName, scriptList, executionType,
                 browserDetails, false, null, null);
 
