@@ -39,7 +39,7 @@ class RunTests {
                             String genCaseList,
                             String runCaseList,
                             String runSuiteList, String executionMode,String environmentType,String browserVersion,String platformVersion,String sauceConnectProxy,String environmentTypeTestcases,String browserVersionTestcases,String sauceConnectProxyTestcases) throws PluginException, InterruptedException {
-
+    
 
         if (!(generateScripts || runTestCases || runTestSuites)) {
             log.println("Neither generate scripts nor run test cases nor run test suites selected, no work to do.");
