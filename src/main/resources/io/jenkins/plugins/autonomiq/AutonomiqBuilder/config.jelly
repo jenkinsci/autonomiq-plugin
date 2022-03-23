@@ -72,9 +72,8 @@
     <f:optionalBlock inline="true" field="runTestSuites" title="${%RunTestSuites}" >
 
        <f:entry title="${%EnvironmentType}" field="environmentType">
-            <f:select style="width:15em;" checkMethod="post"/>
+            <f:select  style="width:15em;" checkMethod="post"/>
         </f:entry>
-
         <f:entry title="${%Platform}" field="platformTestSuites">
             <f:select style="width:15em;" checkMethod="post"/>
         </f:entry>
@@ -91,7 +90,7 @@
         </f:entry>
 
         <f:entry title="${%ExecutionMode}" field="executionMode">
-            <f:select style="width:15em;" checkMethod="post"/>
+            <f:select  style="width:15em;" checkMethod="post"/>
         </f:entry>
 
         <f:entry title="${%RunSuiteList}" field="runSuiteList">
