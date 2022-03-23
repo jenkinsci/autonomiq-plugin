@@ -6,10 +6,10 @@
 	        <f:textbox checkMethod="post" />
 	    </f:entry>
 	     <f:entry title="${%ProxyPort}" field="proxyPort">
-	        <f:textbox checkMethod="post" />
+	        <f:textbox  checkMethod="post" />
 	    </f:entry>
 	     <f:entry title="${%ProxyUser}" field="proxyUser">
-	        <f:textbox checkMethod="post"/>
+	        <f:textbox checkMethod="post" />
 	    </f:entry>
 	     <f:entry title="${%ProxyPassword}" field="proxyPassword">
 	        <f:password checkMethod="post" />
@@ -22,11 +22,11 @@
     </f:entry>
 
     <f:entry title="${%Login}" field="login">
-        <f:textbox checkMethod="post"/>
+        <f:textbox checkMethod="post" />
     </f:entry>
 
     <f:entry title="${%Password}" field="password">
-        <f:password checkMethod="post"/>
+        <f:password  checkMethod="post"/>
     </f:entry>
 
     <f:entry title="${%Project}" field="project">
@@ -36,23 +36,35 @@
     <f:optionalBlock inline="true" field="genScripts" title="${%GenScripts}" >
 
         <f:entry title="${%GenCaseList}" field="genCaseList">
-            <f:textarea checkMethod="post"/>
+            <f:textarea checkMethod="post" />
         </f:entry>
 
     </f:optionalBlock>
 
     <f:optionalBlock inline="true" field="runTestCases" title="${%RunTestCases}" >
 
-      <f:entry title="${%Platform}" field="platformTestCases">
-            <f:select checkMethod="post"/>
+      <f:entry title="${%EnvironmentType}" field="environmentTypeTestcases">
+            <f:select checkMethod="post" style="width:15em;"/>
+        </f:entry>
+
+        <f:entry title="${%Platform}" field="platformTestCases">
+            <f:select style="width:15em;" checkMethod="post"/>
         </f:entry>
 
         <f:entry title="${%Browser}" field="browserTestCases">
-            <f:select checkMethod="post"/>
+            <f:select style="width:15em;" checkMethod="post" />
+        </f:entry>
+
+	 <f:entry title="${%BrowserVersion}" field="browserVersionTestcases">
+            <f:select style="width:15em;" checkMethod="post"/>
+        </f:entry>
+
+        <f:entry title="${%SauceConnectProxy}" field="sauceConnectProxyTestcases">
+            <f:select style="width:15em;" checkMethod="post"/>
         </f:entry>
 
          <f:entry title="${%RunCaseList}" field="runCaseList">
-            <f:textarea value="${descriptor.getDefaultGenScriptsList()}" checkMethod="post" />
+            <f:textarea value="${descriptor.getDefaultGenScriptsList()}" />
          </f:entry>
 
     </f:optionalBlock>
@@ -60,32 +72,30 @@
     <f:optionalBlock inline="true" field="runTestSuites" title="${%RunTestSuites}" >
 
        <f:entry title="${%EnvironmentType}" field="environmentType">
-            <f:select checkMethod="post" style="width:15em;"/>
+            <f:select checkMethod="post" style="width:15em;" checkMethod="post"/>
         </f:entry>
 
-
         <f:entry title="${%Platform}" field="platformTestSuites">
-            <f:select style="width:15em;"/>
+            <f:select style="width:15em;" checkMethod="post"/>
         </f:entry>
 
         <f:entry title="${%Browser}" field="browserTestSuites">
-            <f:select style="width:15em;"/>
+            <f:select style="width:15em;" checkMethod="post"/>
         </f:entry>
 
         <f:entry title="${%BrowserVersion}" field="browserVersion">
-            <f:select style="width:15em;"/>
+            <f:select style="width:15em;" checkMethod="post"/>
         </f:entry>
-
         <f:entry title="${%SauceConnectProxy}" field="sauceConnectProxy">
-            <f:select style="width:15em;"/>
+            <f:select style="width:15em;" checkMethod="post"/>
         </f:entry>
 
         <f:entry title="${%ExecutionMode}" field="executionMode">
-            <f:select checkMethod="post" style="width:15em;"/>
+            <f:select checkMethod="post" style="width:15em;" checkMethod="post"/>
         </f:entry>
 
         <f:entry title="${%RunSuiteList}" field="runSuiteList">
-            <f:textarea style="width:15em;" />
+            <f:textarea style="width:15em;" checkMethod="post" />
         </f:entry>
 
     </f:optionalBlock>
