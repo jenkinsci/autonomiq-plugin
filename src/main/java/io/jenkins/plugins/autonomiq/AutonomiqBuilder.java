@@ -597,7 +597,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         		
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingplatformTestSuites());
         	}
-        	if(value.length() == 0 && environmentType.equalsIgnoreCase("Saucelabs"))
+        	else if(value.length() == 0 && environmentType.equalsIgnoreCase("Saucelabs"))
         	{	
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingplatformTestSuites());
         	}
@@ -617,7 +617,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         
         @SuppressWarnings("unused")
         @POST
-        public FormValidation doCheckBrowserTestSuites(@QueryParameter String value,@QueryParameter String browserTestSuites,@QueryParameter String environmentType)
+        public FormValidation doCheckBrowserTestSuites(@QueryParameter String value,@QueryParameter String browserTestSuites,@QueryParameter String environmentType,@QueryParameter String platformTestSuites)
                 throws IOException, ServletException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
         	
@@ -626,11 +626,16 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         		
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserTestSuites());
         	}
-        	if(value.length() == 0 && environmentType.equalsIgnoreCase("Saucelabs"))
+        	else if(value.length() == 0 && environmentType.equalsIgnoreCase("Saucelabs"))
         	{	
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserTestSuites());
         	}
         	else if (value.equalsIgnoreCase("--select browser--"))
+        	{
+        		
+                return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserTestSuites());
+        	}
+        	else if (platformTestSuites.equalsIgnoreCase("--select platform--"))
         	{
         		
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserTestSuites());
@@ -647,7 +652,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         
         @SuppressWarnings("unused")
         @POST 
-        public FormValidation doCheckBrowserVersion(@QueryParameter String value,@QueryParameter String browserVersion,@QueryParameter String environmentType)
+        public FormValidation doCheckBrowserVersion(@QueryParameter String value,@QueryParameter String browserVersion,@QueryParameter String environmentType,@QueryParameter String platformTestSuites,@QueryParameter String browserTestSuites)
                 throws IOException, ServletException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
         	
@@ -672,7 +677,17 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         		
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserVersion());
         	}
-        	if(value.length() == 0 && environmentType.equalsIgnoreCase("Saucelabs"))
+        	else if (platformTestSuites.equalsIgnoreCase("--select platform--"))
+        	{
+        		
+                return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserVersion());
+        	}
+        	else if (browserTestSuites.equalsIgnoreCase("--select browser--"))
+        	{
+        		
+                return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserVersion());
+        	}
+        	else if(value.length() == 0 && environmentType.equalsIgnoreCase("Saucelabs"))
         	{	
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserVersion());
         	}
@@ -699,7 +714,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         	{
         		return FormValidation.ok();
         	}
-        	if(value.length() == 0 && environmentType.equalsIgnoreCase("Saucelabs"))
+        	else if(value.length() == 0 && environmentType.equalsIgnoreCase("Saucelabs"))
         	{	
         		
     			return FormValidation.ok();
@@ -752,7 +767,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         		
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingplatformTestSuites());
         	}
-        	if(value.length() == 0 && environmentTypeTestcases.equalsIgnoreCase("Saucelabs"))
+        	else if(value.length() == 0 && environmentTypeTestcases.equalsIgnoreCase("Saucelabs"))
         	{	
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingplatformTestSuites());
         	}
@@ -773,7 +788,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         
         @SuppressWarnings("unused")
         @POST
-        public FormValidation doCheckBrowserTestCases(@QueryParameter String value,@QueryParameter String browserTestCases,@QueryParameter String environmentTypeTestcases)
+        public FormValidation doCheckBrowserTestCases(@QueryParameter String value,@QueryParameter String browserTestCases,@QueryParameter String environmentTypeTestcases,@QueryParameter String platformTestCases)
                 throws IOException, ServletException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
         	if(environmentTypeTestcases.equalsIgnoreCase("--select environmenttype--"))
@@ -781,11 +796,16 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         		
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserTestSuites());
         	}
-        	if(value.length() == 0 && environmentTypeTestcases.equalsIgnoreCase("Saucelabs"))
+        	else if(value.length() == 0 && environmentTypeTestcases.equalsIgnoreCase("Saucelabs"))
         	{	
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserTestSuites());
         	}
         	else if (value.equalsIgnoreCase("--select browser--"))
+        	{
+        		
+                return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserTestSuites());
+        	}
+        	else if (platformTestCases.equalsIgnoreCase("--select platform--"))
         	{
         		
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserTestSuites());
@@ -801,7 +821,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         
         @SuppressWarnings("unused")
         @POST
-        public FormValidation doCheckBrowserVersionTestcases(@QueryParameter String value,@QueryParameter String browserVersionTestcases,@QueryParameter String environmentTypeTestcases)
+        public FormValidation doCheckBrowserVersionTestcases(@QueryParameter String value,@QueryParameter String browserVersionTestcases,@QueryParameter String environmentTypeTestcases,@QueryParameter String platformTestCases,@QueryParameter String browserTestCases)
                 throws IOException, ServletException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
         	
@@ -825,7 +845,17 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         		
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserVersion());
         	}
-        	if(value.length() == 0 && environmentTypeTestcases.equalsIgnoreCase("Saucelabs"))
+        	else if (platformTestCases.equalsIgnoreCase("--select platform--"))
+        	{
+        		
+                return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserVersion());
+        	}
+        	else if (browserTestCases.equalsIgnoreCase("--select browser--"))
+        	{
+        		
+                return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserVersion());
+        	}
+        	else if(value.length() == 0 && environmentTypeTestcases.equalsIgnoreCase("Saucelabs"))
         	{	
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserVersion());
         	}

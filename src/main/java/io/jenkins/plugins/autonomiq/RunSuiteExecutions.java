@@ -213,7 +213,7 @@ class RunSuiteExecutions {
                     executionMode, false,
                     null,
                     new HashMap<>(),environmentType,platformVersion,sauceConnectProxy);
-
+            System.out.println("response of suite"+resp);
             //since we are running in only 1 browser platform combination we need to set only 1 job id here.
             t.setJobId(resp.getJob_id()[0]);
         }
