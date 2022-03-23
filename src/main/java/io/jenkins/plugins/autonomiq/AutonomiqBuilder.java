@@ -519,7 +519,8 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
     @Extension
     public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
 
-        @SuppressWarnings("unused")
+    	@SuppressWarnings("unused")
+        @POST
         public FormValidation doCheckAiqUrl(@QueryParameter String value, @QueryParameter String aiqUrl)
                 throws IOException, ServletException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
@@ -531,7 +532,8 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
             return FormValidation.ok();
         }
 
-        @SuppressWarnings("unused")
+    	@SuppressWarnings("unused")
+        @POST
         public FormValidation doCheckLogin(@QueryParameter String value, @QueryParameter String login)
                 throws IOException, ServletException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
@@ -543,7 +545,8 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
             return FormValidation.ok();
         }
 
-        @SuppressWarnings("unused")
+    	@SuppressWarnings("unused")
+        @POST
         public FormValidation doCheckPassword(@QueryParameter String value, @QueryParameter String password)
                 throws IOException, ServletException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
@@ -555,7 +558,8 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
             return FormValidation.ok();
         }
 
-        @SuppressWarnings("unused")
+    	@SuppressWarnings("unused")
+        @POST
         public FormValidation doCheckProject(@QueryParameter String value)
                 throws IOException, ServletException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
@@ -610,9 +614,6 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
             	platformTestSuites=value;
             return FormValidation.ok();
         }
-        
-        
-        
         
         @SuppressWarnings("unused")
         @POST
@@ -871,10 +872,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         
         }
     
-       
-        
-        
-     
+        @POST
         public FormValidation doCheckGenCaseList(@QueryParameter String value,
                                                  @QueryParameter String aiqUrl,
                                                  @QueryParameter String login,
@@ -889,7 +887,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
             return checkTestCasesFromText(value, aiqUrl, login, password, project, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
         }
-
+        @POST
         public FormValidation doCheckRunCaseList(@QueryParameter String value,
                                                  @QueryParameter String aiqUrl,
                                                  @QueryParameter String login,
@@ -904,7 +902,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
             return checkTestCasesFromText(value, aiqUrl, login, password, project, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
         }
-
+        @POST
         public FormValidation doCheckRunSuiteList(@QueryParameter String value,
                                                   @QueryParameter String aiqUrl,
                                                   @QueryParameter String login,
@@ -1047,18 +1045,21 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
 
         @SuppressWarnings("unused")
+        @POST
         public String getDefaultAiqUrl() {
             String ret = AutonomiqConfiguration.get().getDefaultAiqUrl();
             return ret;
         }
 
         @SuppressWarnings("unused")
+        @POST
         public String getDefaultLogin() {
             String ret = AutonomiqConfiguration.get().getDefaultLogin();
             return ret;
         }
 
         @SuppressWarnings("unused")
+        @POST
         public Secret getDefaultPassword() {
             Secret ret = AutonomiqConfiguration.get().getDefaultPassword();
             return ret;
@@ -1075,6 +1076,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
 
         @SuppressWarnings("unused")
+        @POST
         public ListBoxModel doFillProjectItems(@QueryParameter String aiqUrl,
                                                @QueryParameter String login,
                                                @QueryParameter String password,
@@ -1102,6 +1104,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
 
         }
         @SuppressWarnings("unused")
+        @POST
         public ListBoxModel doFillEnvironmentTypeTestcasesItems(@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter String password,
@@ -1124,6 +1127,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
         
         @SuppressWarnings("unused")
+        @POST
         public ListBoxModel doFillPlatformTestCasesItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter String password,
@@ -1156,6 +1160,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
         
         @SuppressWarnings("unused")
+        @POST
         public ListBoxModel doFillBrowserTestCasesItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String platformTestCases,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter String password,
@@ -1194,6 +1199,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
         
         @SuppressWarnings("unused")
+        @POST
         public ListBoxModel doFillBrowserVersionTestcasesItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String platformTestCases,@QueryParameter String browserTestCases,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter String password,
@@ -1228,6 +1234,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         	return new ListBoxModel();
         }
         @SuppressWarnings("unused")
+        @POST
         public ListBoxModel doFillSauceConnectProxyTestcasesItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter String password,
@@ -1256,6 +1263,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         
         
         @SuppressWarnings("unused")
+        @POST
         public ListBoxModel doFillEnvironmentTypeItems(@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter String password,
@@ -1279,6 +1287,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
         
         @SuppressWarnings("unused")
+        @POST
         public ListBoxModel doFillPlatformTestSuitesItems(@QueryParameter String environmentType,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter String password,
@@ -1313,6 +1322,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
 
        
         @SuppressWarnings("unused")
+        @POST
         public ListBoxModel doFillBrowserTestSuitesItems(@QueryParameter String environmentType,@QueryParameter String platformTestSuites,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter String password,
@@ -1356,6 +1366,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
         
         @SuppressWarnings("unused")
+        @POST
         public ListBoxModel doFillBrowserVersionItems(@QueryParameter String environmentType,@QueryParameter String platformTestSuites,@QueryParameter String browserTestSuites,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter String password,
@@ -1392,6 +1403,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
 
         @SuppressWarnings("unused")
+        @POST
         public ListBoxModel doFillSauceConnectProxyItems(@QueryParameter String environmentType,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter String password,
@@ -1419,6 +1431,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
 
         @SuppressWarnings("unused")
+        @POST
         public ListBoxModel doFillExecutionModeItems() {
 
             String[] values = {"--select executionmode--","serial", "parallel"};
