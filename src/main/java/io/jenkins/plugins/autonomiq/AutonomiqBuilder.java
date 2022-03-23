@@ -579,7 +579,8 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
         @SuppressWarnings("unused")
         @POST
-        public FormValidation doCheckPlatformTestSuites(@QueryParameter String value,@QueryParameter String platformTestSuites,@QueryParameter String environmentType)
+        public FormValidation doCheckPlatformTestSuites(@QueryParameter String value,@QueryParameter String platformTestSuites,
+                @QueryParameter String environmentType)
                 throws IOException, ServletException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
@@ -1101,14 +1102,14 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         @POST
         public ListBoxModel doFillEnvironmentTypeTestcasesItems(@QueryParameter String aiqUrl,
                 @QueryParameter String login,
-                @QueryParameter String password,
+                @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
                 @QueryParameter String proxyPort,
                 @QueryParameter String proxyUser,
-                @QueryParameter String proxyPassword,
+                @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
 
-        	if (aiqUrl.length() > 0 && login.length() > 0 && password.length() > 0) {
+        	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
 
             String[] values= getEnvironmentType(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
 
@@ -1124,11 +1125,11 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         @POST
         public ListBoxModel doFillPlatformTestCasesItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
-                @QueryParameter String password,
+                @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
                 @QueryParameter String proxyPort,
                 @QueryParameter String proxyUser,
-                @QueryParameter String proxyPassword,
+                @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
 
 
@@ -1157,11 +1158,11 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         @POST
         public ListBoxModel doFillBrowserTestCasesItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String platformTestCases,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
-                @QueryParameter String password,
+                @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
                 @QueryParameter String proxyPort,
                 @QueryParameter String proxyUser,
-                @QueryParameter String proxyPassword,
+                @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
 
         	if( environmentTypeTestcases.equalsIgnoreCase("saucelabs"))
@@ -1196,11 +1197,11 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         @POST
         public ListBoxModel doFillBrowserVersionTestcasesItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String platformTestCases,@QueryParameter String browserTestCases,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
-                @QueryParameter String password,
+                @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
                 @QueryParameter String proxyPort,
                 @QueryParameter String proxyUser,
-                @QueryParameter String proxyPassword,
+                @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
 
         	if( environmentTypeTestcases.equalsIgnoreCase("saucelabs"))
@@ -1232,11 +1233,11 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         @POST
         public ListBoxModel doFillSauceConnectProxyTestcasesItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
-                @QueryParameter String password,
+                @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
                 @QueryParameter String proxyPort,
                 @QueryParameter String proxyUser,
-                @QueryParameter String proxyPassword,
+                @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException
         {
         	if (environmentTypeTestcases.equalsIgnoreCase("saucelabs")) {
@@ -1263,14 +1264,14 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         @POST
         public ListBoxModel doFillEnvironmentTypeItems(@QueryParameter String aiqUrl,
                 @QueryParameter String login,
-                @QueryParameter String password,
+                @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
                 @QueryParameter String proxyPort,
                 @QueryParameter String proxyUser,
-                @QueryParameter String proxyPassword,
+                @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
 
-        	if (aiqUrl.length() > 0 && login.length() > 0 && password.length() > 0) {
+        	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
 
             String[] values= getEnvironmentType(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
 
@@ -1287,11 +1288,11 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         @POST
         public ListBoxModel doFillPlatformTestSuitesItems(@QueryParameter String environmentType,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
-                @QueryParameter String password,
+                @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
                 @QueryParameter String proxyPort,
                 @QueryParameter String proxyUser,
-                @QueryParameter String proxyPassword,
+                @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
@@ -1323,11 +1324,11 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         @POST
         public ListBoxModel doFillBrowserTestSuitesItems(@QueryParameter String environmentType,@QueryParameter String platformTestSuites,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
-                @QueryParameter String password,
+                @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
                 @QueryParameter String proxyPort,
                 @QueryParameter String proxyUser,
-                @QueryParameter String proxyPassword,
+                @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
@@ -1368,11 +1369,11 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         @POST
         public ListBoxModel doFillBrowserVersionItems(@QueryParameter String environmentType,@QueryParameter String platformTestSuites,@QueryParameter String browserTestSuites,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
-                @QueryParameter String password,
+                @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
                 @QueryParameter String proxyPort,
                 @QueryParameter String proxyUser,
-                @QueryParameter String proxyPassword,
+                @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
 
 
@@ -1407,11 +1408,11 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         @POST
         public ListBoxModel doFillSauceConnectProxyItems(@QueryParameter String environmentType,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
-                @QueryParameter String password,
+                @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
                 @QueryParameter String proxyPort,
                 @QueryParameter String proxyUser,
-                @QueryParameter String proxyPassword,
+                @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException
         {
         	if (environmentType.equalsIgnoreCase("Saucelabs")) {
@@ -1484,7 +1485,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
 
             // fetching env type
-        private String[] getEnvironmentType(String aiqUrl, String login, String password, String proxyHost, String proxyPort, String proxyUser, String proxyPassword, Boolean httpProxy) throws ServiceException {
+        private String[] getEnvironmentType(String aiqUrl, String login, Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
             int i =1;
         	String[] EnvironmentType= new String[5];
         	EnvironmentType[0]="--select environmenttype--";
@@ -1527,7 +1528,8 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
 
  //fetch platform dropdown
 
-        private String[] getplatformType(String environmentType,String aiqUrl, String login, String password, String proxyHost, String proxyPort, String proxyUser, String proxyPassword, Boolean httpProxy) throws ServiceException {
+        private String[] getplatformType(String environmentType,String aiqUrl, String login, Secret password, String proxyHost,
+                 String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
             int i =1;
         	String[] platform1= new String[12];
 
@@ -1582,7 +1584,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
             //browser details
         private String[] getBrowser(String environmentType,String platformTestSuites,String aiqUrl, String login,
-        String password, String proxyHost, String proxyPort, String proxyUser, String proxyPassword, Boolean httpProxy) throws ServiceException {
+        Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
             int i =1;
         	String[] Browser= new String[12];
         	Browser[0]="--select browser--";
@@ -1636,7 +1638,8 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
 
             // browser version
-        private String[] getBrowserVersion(String platformTestSuites,String browserTestSuites,String aiqUrl, String login, String password, String proxyHost, String proxyPort, String proxyUser, String proxyPassword, Boolean httpProxy) throws ServiceException {
+        private String[] getBrowserVersion(String platformTestSuites,String browserTestSuites,String aiqUrl, String login,
+         Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
             int i =1;
         	String[] BrowserVersion= new String[12];
         	BrowserVersion[0]="--select browserversion--";
@@ -1689,8 +1692,8 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
 
          // sauce connect
-        private String[] getSauceconnect(String aiqUrl, String login, String password, String proxyHost, String proxyPort,
-        String proxyUser, String proxyPassword, Boolean httpProxy) throws ServiceException {
+        private String[] getSauceconnect(String aiqUrl, String login, Secret password, String proxyHost, String proxyPort,
+        String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
             //int i =1;
         	String[] sauceconnect= new String[12];
 
