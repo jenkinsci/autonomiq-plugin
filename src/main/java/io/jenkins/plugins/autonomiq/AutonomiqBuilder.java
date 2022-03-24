@@ -572,7 +572,9 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
 
             if (value.length() == 0 || value.equalsIgnoreCase("--select environmenttype--"))
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingEnvironmentType());
-
+            else{
+            	environmentType=value;
+            }
 
             return FormValidation.ok();
         }
@@ -602,7 +604,9 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
             {
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingplatformTestSuites());
             }
-
+            else{
+            	platformTestSuites=value;
+            }
             return FormValidation.ok();
         }
 
@@ -634,7 +638,9 @@ return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_miss
             {
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserTestSuites());
             }
-
+            else{
+            	browserTestSuites=value;
+            }
             return FormValidation.ok();
         }
         @SuppressWarnings("unused")
@@ -682,7 +688,9 @@ return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_miss
             {
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserVersion());
             }
-
+            else{
+            	browserVersion=value;
+            }
             return FormValidation.ok();
         }
         @SuppressWarnings("unused")
@@ -710,7 +718,9 @@ return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_miss
 
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingSauceConnectProxy());
             }
-
+            else{
+            	sauceConnectProxy=value;
+            }
             return FormValidation.ok();
         }
         @SuppressWarnings("unused")
@@ -718,8 +728,10 @@ return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_miss
         public FormValidation doCheckExecutionMode(@QueryParameter String value,@QueryParameter String executionMode)
                 throws IOException, ServletException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
-            if (value.length() == 0 || value.equalsIgnoreCase("--select executionmode--")){
+            if (value.length() == 0 || value.equalsIgnoreCase("--select executionmode--"))
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingExecutionMode());
+            else{
+            	executionMode=value;
             }
             return FormValidation.ok();
         }
@@ -730,8 +742,10 @@ return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_miss
         public FormValidation doCheckEnvironmentTypeTestcases(@QueryParameter String value,@QueryParameter String environmentTypeTestcases)
                 throws IOException, ServletException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
-            if (value.length() == 0 ||value.equalsIgnoreCase("--select environmenttype--")){
+            if (value.length() == 0 ||value.equalsIgnoreCase("--select environmenttype--"))
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingEnvironmentType());
+            else{
+            	environmentTypeTestcases=value;
             }
             return FormValidation.ok();
         }
@@ -759,6 +773,9 @@ return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_miss
         	else if (value.length() == 0)
             {
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingplatformTestSuites());
+            }
+            else{
+            	platformTestCases=value;
             }
             return FormValidation.ok();
         }
@@ -790,6 +807,9 @@ return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_miss
         	else if (value.length() == 0)
             {
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserTestSuites());
+            }
+            else{
+            	browserTestCases=value;
             }
             return FormValidation.ok();
         }
@@ -838,6 +858,9 @@ return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_miss
             {
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingBrowserVersion());
             }
+            else{
+            	browserVersionTestcases=value;
+            }
             return FormValidation.ok();
         }
 
@@ -866,6 +889,10 @@ return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_miss
             {
 
                 return FormValidation.error(Messages.AutonomiqBuilder_DescriptorImpl_errors_missingSauceConnectProxy());
+            }
+            else{
+
+            	sauceConnectProxyTestcases=value;
             }
             return FormValidation.ok();
 
