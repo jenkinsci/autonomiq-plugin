@@ -78,11 +78,11 @@ public class PlatformBrowserDetails {
 	public void setEnvironmentType(String environmentType) {
 		this.environmentType = environmentType;
 	}
-	public String getSauceConnectProxy() {
+	public String getTunnelID() {
 			return tunnelID;
 	}
 
-	public void setSauceConnectProxy(String sauceConnectProxy) {
+	public void setTunnelID(String tunnelID) {
 			this.tunnelID = tunnelID;
 	}
 	
