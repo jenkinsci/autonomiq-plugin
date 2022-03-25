@@ -21,7 +21,7 @@ public class PlatformBrowserDetails {
         this.deviceName = deviceName;
         this.deviceOrientation = deviceOrientation;
         this.environmentType = environmentType;
-        this.tunnelID=tunnelID;
+        this.tunnelID = tunnelID;
     }
 
     public String getBrowser() {
@@ -83,7 +83,7 @@ public class PlatformBrowserDetails {
 	}
 
 	public void setTunnelID(String tunnelID) {
-			this.tunnelID = tunnelID;
+		this.tunnelID = tunnelID;
 	}
 	
 }
