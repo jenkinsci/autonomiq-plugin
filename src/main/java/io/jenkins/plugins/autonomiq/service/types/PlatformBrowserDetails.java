@@ -21,7 +21,7 @@ public class PlatformBrowserDetails {
         this.deviceName = deviceName;
         this.deviceOrientation = deviceOrientation;
         this.environmentType = environmentType;
-        this.tunnelID=tunnelID;
+        this.tunnelID = tunnelID;
     }
 
     public String getBrowser() {
@@ -78,12 +78,12 @@ public class PlatformBrowserDetails {
 	public void setEnvironmentType(String environmentType) {
 		this.environmentType = environmentType;
 	}
-	public String getSauceConnectProxy() {
+	public String getTunnelID() {
 			return tunnelID;
 	}
 
-	public void setSauceConnectProxy(String sauceConnectProxy) {
-			this.tunnelID = tunnelID;
+	public void setTunnelID(String tunnelID) {
+		this.tunnelID = tunnelID;
 	}
 	
 }
