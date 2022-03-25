@@ -846,7 +846,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
 
                  return new ListBoxModel(options);
         	}
-        	else if (aiqUrl.length() > 0 && login.length() > 0 && password.length() > 0)
+        	else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
         	{
 
          		String[] values= getplatformType(environmentTypeTestcases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
@@ -891,7 +891,7 @@ else
                 return new ListBoxModel(options);
         	   }
         	}
-        	else if (aiqUrl.length() > 0 && login.length() > 0 && password.length() > 0)
+        	else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
         	{
      			String[] values= getBrowser(environmentTypeTestcases,platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
 
@@ -938,7 +938,7 @@ else
 
         	  }
         	}
-        	else if (aiqUrl.length() > 0 && login.length() > 0 && password.length() > 0)
+        	else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
         	{
         		 String[] values= getBrowserVersion(platformTestCases,browserTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
                  Option[] options = buildSimpleOptions(values);
@@ -980,7 +980,7 @@ else
                  Option[] options = buildSimpleOptions(values);
                  return new ListBoxModel(options);
         	}
-        	else if (aiqUrl.length() > 0 && login.length() > 0 && password.length() > 0)
+        	else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
         	{
 
                  String[] values= getSauceconnect(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
@@ -1040,7 +1040,7 @@ else
 
                  return new ListBoxModel(options);
         	}
-        	else if (aiqUrl.length() > 0 && login.length() > 0 && password.length() > 0)
+        	else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
         	{
 
          		String[] values= getplatformType(environmentType,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
@@ -1087,7 +1087,7 @@ else
                 return new ListBoxModel(options);
         	   }
         	}
-        	else if (aiqUrl.length() > 0 && login.length() > 0 && password.length() > 0)
+        	else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
         	{
      			String[] values= getBrowser(environmentType,platformTestSuites,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
 
@@ -1140,7 +1140,7 @@ else
 					e.printStackTrace();
 				}
         	}
-        	else if (aiqUrl.length() > 0 && login.length() > 0 && password.length() > 0)
+        	else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
         	{
         		 String[] values= getBrowserVersion(platformTestSuites,browserTestSuites,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
                  Option[] options = buildSimpleOptions(values);
@@ -1182,7 +1182,7 @@ else
                      Option[] options = buildSimpleOptions(values);
                      return new ListBoxModel(options);
             	}
-            	else if (aiqUrl.length() > 0 && login.length() > 0 && password.length() > 0)
+            	else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
             	{
 
                      String[] values= getSauceconnect(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
