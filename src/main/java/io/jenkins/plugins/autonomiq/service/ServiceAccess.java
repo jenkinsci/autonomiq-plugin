@@ -158,7 +158,7 @@ public class ServiceAccess {
     public ExecutedTaskResponse runTestCase(Long projectId, Long scriptId,
                                             String testExecutionName,
                                             String platform, String browser,
-                                            String executionType,String environmentTypeTestcases,String browserVersionTestcases,String tunnelID) throws ServiceException {
+                                            String executionType,String environmentTypeTestcases,String browserVersionTestcases,String sauceConnectProxyTestcases) throws ServiceException {
     	
     	
 
@@ -169,7 +169,7 @@ public class ServiceAccess {
         List<Long> scriptList = listForItem(scriptId);
 
         List<PlatformBrowserDetails> browserDetails = new LinkedList<>();
-        browserDetails.add(new PlatformBrowserDetails(browser,browserVersionTestcases, platform, null, null, null,null,environmentTypeTestcases,tunnelID));
+        browserDetails.add(new PlatformBrowserDetails(browser,browserVersionTestcases, platform, null, null, null,null,environmentTypeTestcases,sauceConnectProxyTestcases));
         
         ExecuteTaskRequest body = new ExecuteTaskRequest(sessionId, testExecutionName, scriptList, executionType,
                 browserDetails, false, null, null);
@@ -209,12 +209,12 @@ public class ServiceAccess {
                                              String browserVersion, String executionType,
                                              String executionMode, boolean isRemoteDriver,
                                              String remoteDriverUrl,
-                                             Map<Long, String> caseSessionMap,String environmentType,String platformVersion,String tunnelID) throws ServiceException {
+                                             Map<Long, String> caseSessionMap,String environmentType,String platformVersion,String sauceConnectProxy) throws ServiceException {
 
         String url = String.format(executeTestSuitePath, aiqUrl, testSuiteId);
 
         List<PlatformBrowserDetails> details = new LinkedList<>();
-        details.add(new PlatformBrowserDetails(browser, browserVersion, platform, null, null, null,null,environmentType,tunnelID));
+        details.add(new PlatformBrowserDetails(browser, browserVersion, platform, null, null, null,null,environmentType,sauceConnectProxy));
         
         ExecuteTestSuiteRequest body = new ExecuteTestSuiteRequest(
                 details, executionType, executionMode,
