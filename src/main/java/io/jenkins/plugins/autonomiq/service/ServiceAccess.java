@@ -158,13 +158,18 @@ public class ServiceAccess {
     public ExecutedTaskResponse runTestCase(Long projectId, Long scriptId,
                                             String testExecutionName,
                                             String platform, String browser,
-                                            String executionType,String environmentTypeTestcases,String browserVersionTestcases,String sauceConnectProxyTestcases) throws ServiceException {
+                                            String executionType,String environmentTypeTestcases,
+                                            String browserVersionTestcases,String sauceConnectProxyTestcases) throws ServiceException {
     	
     	
 
         String sessionId = createSession();
 
         String url = String.format(runTestCasesPath, aiqUrl, projectId);
+        if(sauceConnectProxyTestcases.equalsIgnoreCase("Tunnel id not available"))
+        {
+        	sauceConnectProxyTestcases= "";
+        }
 
         List<Long> scriptList = listForItem(scriptId);
 
@@ -212,6 +217,9 @@ public class ServiceAccess {
                                              Map<Long, String> caseSessionMap,String environmentType,String platformVersion,String sauceConnectProxy) throws ServiceException {
 
         String url = String.format(executeTestSuitePath, aiqUrl, testSuiteId);
+        if(sauceConnectProxy.equalsIgnoreCase("Tunnel id not available")){
+        	sauceConnectProxy= "";
+        }
 
         List<PlatformBrowserDetails> details = new LinkedList<>();
         details.add(new PlatformBrowserDetails(browser, browserVersion, platform, null, null, null,null,environmentType,sauceConnectProxy));
