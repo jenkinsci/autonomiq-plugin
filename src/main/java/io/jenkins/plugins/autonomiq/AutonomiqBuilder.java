@@ -1315,6 +1315,11 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
 
+
+            if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
+           	  platformTestCases="Android";
+             }
+
         	if( environmentTypeTestcases.equalsIgnoreCase("Saucelabs"))
         	{
        				String[] values= getBrowser(environmentTypeTestcases,platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
@@ -1360,6 +1365,10 @@ else
                 @QueryParameter String proxyUser,
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
+
+             if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
+           	  platformTestCases="Android";
+             }
 
         	if( environmentTypeTestcases.equalsIgnoreCase("Saucelabs"))
 {
@@ -1508,6 +1517,10 @@ else
                 @QueryParameter Boolean httpProxy) throws ServiceException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
+        	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
+           	  platformTestCases="Android";
+             }
+
         	if (environmentType.equalsIgnoreCase("Saucelabs"))
         	{
        				String[] values= getBrowser(environmentType,platformTestSuites,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
@@ -1556,6 +1569,9 @@ else
             System.out.println("env type"+environmentType);
         	System.out.println("browser testsuites"+browserTestSuites);
 
+        	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
+           	  platformTestCases="Android";
+             }
 
         	if( environmentType.equalsIgnoreCase("Saucelabs"))
 {
@@ -1784,6 +1800,9 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        	if(platformTestSuites.equalsIgnoreCase("Android (Beta)")){
+      		  platformTestSuites="Android";
+            }
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
 
 
@@ -1809,6 +1828,9 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
+        		platformTestCases="Android";
+            }
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
 
 
@@ -1834,6 +1856,10 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        	if(platformTestSuites.equalsIgnoreCase("Android (Beta)")){
+        		platformTestSuites="Android";
+             }
+
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
 
 
@@ -1856,6 +1882,9 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+            if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
+        		platformTestCases="Android";
+             }
 
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
 
@@ -1879,6 +1908,10 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+
+        	if(platformTestSuites.equalsIgnoreCase("Android (Beta)")){
+        		platformTestSuites="Android";
+              }
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
 
 
@@ -1903,6 +1936,11 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+
+        	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
+        		platformTestCases="Android";
+              }
+
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
             String[] values = {"Portrait","Landscape"};
 
@@ -1925,6 +1963,10 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+
+        	if(platformTestSuites.equalsIgnoreCase("Android (Beta)")){
+        		platformTestSuites="Android";
+            }
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
 
 
@@ -1947,6 +1989,9 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
+        		platformTestCases="Android";
+              }
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
             String[] values = {"false","true"};
             Option[] options = buildSimpleOptions(values);
@@ -1967,6 +2012,9 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        	if(platformTestSuites.equalsIgnoreCase("Android (Beta)")){
+        		platformTestSuites="Android";
+              }
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
             String[] values = {"false","true"};
             Option[] options = buildSimpleOptions(values);
@@ -1987,6 +2035,9 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
+        		platformTestCases="Android";
+              }
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
             String[] values = {"false","true"};
             Option[] options = buildSimpleOptions(values);
@@ -2114,6 +2165,9 @@ else
 	   	            		     String su=env2.getsauceUsername();
 	   	            		     for(PlatformDetail pD:td) {
 	   	            		    	String platform=pD.getplatform();
+	   	            		    	if (platform.equalsIgnoreCase("Android")) {
+	   	            		    		platform="Android (Beta)";
+	   	            		    	}
 	   	            		    	platform1[i]=platform;
 	   	   	            		 	i++;
 	            		 	}
@@ -2291,6 +2345,9 @@ else
 
         // mobile version Fetch
         private String[] getMobileversion(String mobileplatform,String aiqUrl, String login, Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
+            if(mobileplatform.equalsIgnoreCase("Android (Beta)")){
+        		mobileplatform="Android";
+              }
             System.out.println("value in mobile version"+mobileplatform);
         	int i =0;
         	String[] Mobileplatformversion= new String[100];
