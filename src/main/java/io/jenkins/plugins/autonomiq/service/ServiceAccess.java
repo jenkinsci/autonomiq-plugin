@@ -172,30 +172,29 @@ public class ServiceAccess {
         	sauceConnectProxyTestcases= "";
         }
 
-        if (mobileDeviceTestcases && crossBrowserTestcases) {
-        	if(value.equalsIgnoreCase("cross"))
-        	{
-        		mobileDeviceTestcases=false;
-        	}
+        if (deviceNameTestcases.equalsIgnoreCase("NotApplicable"))
+
+        { System.out.println("name of device inside not applicable"+deviceNameTestcases);
+        	List<PlatformBrowserDetails> browserDetails = new LinkedList<>();
+            browserDetails.add(new PlatformBrowserDetails(browser, browserVersionTestcases, platform, null, null, null,null,environmentTypeTestcases,sauceConnectProxyTestcases));
+            ExecuteTaskRequest body = new ExecuteTaskRequest(sessionId, testExecutionName, scriptList, executionType,
+                    browserDetails, false, null, null);
+        	String json = AiqUtil.gson.toJson(body);
+        try {
+
+            String resp = web.post(url, json, token);
+            System.out.println("name of device"+deviceNameTestcases);
+            ExecutedTaskResponse respExec = AiqUtil.gson.fromJson(resp, ExecutedTaskResponse.class);
+
+            return respExec;
+
+        } catch (Exception e) {
+            throw new ServiceException("Exception running test case", e);
         }
 
-        if (mobileDeviceTestcases && crossBrowserTestcases) {
-        	if(value.equalsIgnoreCase("mobile"))
-        	{
-        		crossBrowserTestcases=false;
-        	}
         }
 
 
-
-        List<PlatformBrowserDetails> browserDetails = new LinkedList<>();
-        browserDetails.add(new PlatformBrowserDetails(browser, browserVersionTestcases, platform, null, null, null,null,environmentTypeTestcases,sauceConnectProxyTestcases));
-        ExecuteTaskRequest body = new ExecuteTaskRequest(sessionId, testExecutionName, scriptList, executionType,
-                browserDetails, false, null, null);
-
-        String json = AiqUtil.gson.toJson(body);
-        System.out.println("execute testcase body"+json);
-        System.out.println("name of device"+deviceNameTestcases);
         if (deviceNameTestcases.contains("GoogleAPI Emulator")){
             String autoAcceptAlerts1="emulator";
             String json1="{\"scripts\":"+scriptList+",\"testExecutionName\":\""+testExecutionName+"\",\"extraData\":{},\"executionType\":\"smoke\",\"platformBrowserDetails\":[{\"environmentType\":\"saucelab_devices\",\"platform\":\""+mobileplatformTestcases+"\",\"platformVersion\":\""+mobilePlatformVersionTc+"\",\"browser\":\"Chrome\",\"browserVersion\":\"\",\"testcaseSessionIdMap\":{\"15177\":\"kH7kdpenR\"},\"appiumVersion\":\"1.22.1\",\"deviceName\":\""+deviceNameTestcases+"\",\"deviceOrientation\":\""+deviceOrientationTc+"\",\"extraCapabilities\":[],\"autoAcceptAlerts\":false,\"autoGrantPermission\":"+enableAnimationsTc+",\"enableAnimations\":"+autoGrantPermissionTc+",\"sauceConnectId\":\""+mobileSauceConnectProxyTc+"\",\"deviceType\":\""+autoAcceptAlerts1+"\"}]}";
@@ -247,22 +246,6 @@ public class ServiceAccess {
                     throw new ServiceException("Exception running test case", e);
                 }
          }
-
-          if (crossBrowserTestcases) {
-
-         	   try {
-
-                    String resp = web.post(url, json, token);
-
-                    ExecutedTaskResponse respExec = AiqUtil.gson.fromJson(resp, ExecutedTaskResponse.class);
-
-                    return respExec;
-
-                } catch (Exception e) {
-                    throw new ServiceException("Exception running test case", e);
-                }
-           }
-        }
 		return null;
 
     }
@@ -288,12 +271,13 @@ public class ServiceAccess {
                                              String remoteDriverUrl,
                                              Map<Long, String> caseSessionMap,String environmentType,String platformVersion,String sauceConnectProxy,String mobileplatformTestSuites,String mobilePlatformVersion,String deviceName,String mobileSauceConnectProxy,String mobileExecutionMode,String deviceOrientation,String enableAnimations,String autoGrantPermission,Boolean mobileDevice,Boolean crossBrowser,String value) throws ServiceException {
 
-        String url = String.format(executeTestSuitePath, aiqUrl, testSuiteId);
-        if(sauceConnectProxy.equalsIgnoreCase("Tunnel id not available")){
+
+    	String url = String.format(executeTestSuitePath, aiqUrl, testSuiteId);
+
+        if(sauceConnectProxy.equalsIgnoreCase("Tunnel id not available"))
+        {
         	sauceConnectProxy= "";
         }
-
-
         List<PlatformBrowserDetails> details = new LinkedList<>();
         details.add(new PlatformBrowserDetails(browser, browserVersion, platform, platformVersion, null, null, null,environmentType,sauceConnectProxy));
         ExecuteTestSuiteRequest body = new ExecuteTestSuiteRequest(
@@ -303,27 +287,25 @@ public class ServiceAccess {
         String json = AiqUtil.gson.toJson(body);
         System.out.println("body of api"+json);
 
-        if (mobileDevice && crossBrowser) {
-        	if(value.equalsIgnoreCase("cross"))
-        	{
-        		mobileDevice=false;
-        	}
+        if (deviceName.equalsIgnoreCase("NotApplicable"))
+        {
+        try {
+
+            String resp = web.post(url, json, token);
+
+            ExecuteSuiteResponse respExec = AiqUtil.gson.fromJson(resp, ExecuteSuiteResponse.class);
+
+            return respExec;
+
+        } catch (Exception e) {
+            throw new ServiceException(String.format("Exception running test suite id %d", testSuiteId), e);
         }
+    }
 
-        if (mobileDevice && crossBrowser) {
-        	if(value.equalsIgnoreCase("mobile"))
-        	{
-        		crossBrowser=false;
-        	}
-        }
-
-
-        if (deviceName.contains("GoogleAPI Emulator")){
+      if (deviceName.contains("GoogleAPI Emulator")){
 
             String autoAcceptAlerts1="emulator";
-            String json1 = "{\"executionMode\":\""+ executionMode +"\",\"executionType\":\"smoke\",\"platformBrowserDetails\":[{\"environmentType\":\"saucelab_devices\",\"platform\":\""+mobileplatformTestSuites+"\",\"platformVersion\":\""+mobilePlatformVersion+"\",\"browser\":\"Chrome\",\"browserVersion\":\"\",\"testcaseSessionIdMap\":{\"1432\":\"ASFBZReng\"},\"appiumVersion\":\"1.22.1\",\"deviceName\":\""+deviceName+"\",\"deviceOrientation\":\""+deviceOrientation+"\",\"extraCapabilities\":[],\"autoAcceptAlerts\":false,\"autoGrantPermission\":"+autoGrantPermission+",\"enableAnimations\":"+enableAnimations+",\"sauceConnectId\":\""+mobileSauceConnectProxy+"\",\"deviceType\":\""+autoAcceptAlerts1+"\"}]}";
-
-            if (mobileDevice) {
+            String json1 = "{\"executionMode\":\""+ executionMode +"\",\"executionType\":\"smoke\",\"platformBrowserDetails\":[{\"environmentType\":\"saucelab_devices\",\"platform\":\""+platform+"\",\"platformVersion\":\""+mobilePlatformVersion+"\",\"browser\":\"Chrome\",\"browserVersion\":\"\",\"testcaseSessionIdMap\":{\"1432\":\"ASFBZReng\"},\"appiumVersion\":\"1.22.1\",\"deviceName\":\""+deviceName+"\",\"deviceOrientation\":\""+deviceOrientation+"\",\"extraCapabilities\":[],\"autoAcceptAlerts\":false,\"autoGrantPermission\":"+autoGrantPermission+",\"enableAnimations\":"+enableAnimations+",\"sauceConnectId\":\""+mobileSauceConnectProxy+"\",\"deviceType\":\""+autoAcceptAlerts1+"\"}]}";
             	 try {
                      String resp = web.post(url, json1, token);
 
@@ -334,25 +316,14 @@ public class ServiceAccess {
                  } catch (Exception e) {
                      throw new ServiceException(String.format("Exception running test suite id %d", testSuiteId), e);
                  }
-            }
-            if (crossBrowser) {
-            	 try {
-                     String resp = web.post(url, json, token);
 
-                     ExecuteSuiteResponse respExec = AiqUtil.gson.fromJson(resp, ExecuteSuiteResponse.class);
 
-                     return respExec;
-
-                 } catch (Exception e) {
-                     throw new ServiceException(String.format("Exception running test suite id %d", testSuiteId), e);
-                 }
-            }
          }
         if (deviceName.contains("_real_us")){
             String autoAcceptAlerts1="real";
-            String json1 = "{\"executionMode\":\""+ executionMode +"\",\"executionType\":\"smoke\",\"platformBrowserDetails\":[{\"environmentType\":\"saucelab_devices\",\"platform\":\""+mobileplatformTestSuites+"\",\"platformVersion\":\""+mobilePlatformVersion+"\",\"browser\":\"Chrome\",\"browserVersion\":\"\",\"testcaseSessionIdMap\":{\"1432\":\"ASFBZReng\"},\"appiumVersion\":\"1.22.1\",\"deviceName\":\""+deviceName+"\",\"deviceOrientation\":\""+deviceOrientation+"\",\"extraCapabilities\":[],\"autoAcceptAlerts\":false,\"autoGrantPermission\":"+autoGrantPermission+",\"enableAnimations\":"+enableAnimations+",\"sauceConnectId\":\""+mobileSauceConnectProxy+"\",\"deviceType\":\""+autoAcceptAlerts1+"\"}]}";
+            String json1 = "{\"executionMode\":\""+ executionMode +"\",\"executionType\":\"smoke\",\"platformBrowserDetails\":[{\"environmentType\":\"saucelab_devices\",\"platform\":\""+platform+"\",\"platformVersion\":\""+mobilePlatformVersion+"\",\"browser\":\"Chrome\",\"browserVersion\":\"\",\"testcaseSessionIdMap\":{\"1432\":\"ASFBZReng\"},\"appiumVersion\":\"1.22.1\",\"deviceName\":\""+deviceName+"\",\"deviceOrientation\":\""+deviceOrientation+"\",\"extraCapabilities\":[],\"autoAcceptAlerts\":false,\"autoGrantPermission\":"+autoGrantPermission+",\"enableAnimations\":"+enableAnimations+",\"sauceConnectId\":\""+mobileSauceConnectProxy+"\",\"deviceType\":\""+autoAcceptAlerts1+"\"}]}";
 
-            if (mobileDevice) {
+
             	 try {
                      String resp = web.post(url, json1, token);
 
@@ -363,19 +334,7 @@ public class ServiceAccess {
                  } catch (Exception e) {
                      throw new ServiceException(String.format("Exception running test suite id %d", testSuiteId), e);
                  }
-            }
-            if (crossBrowser) {
-            	 try {
-                     String resp = web.post(url, json, token);
 
-                     ExecuteSuiteResponse respExec = AiqUtil.gson.fromJson(resp, ExecuteSuiteResponse.class);
-
-                     return respExec;
-
-                 } catch (Exception e) {
-                     throw new ServiceException(String.format("Exception running test suite id %d", testSuiteId), e);
-                 }
-            }
          }
 
 		return null;
