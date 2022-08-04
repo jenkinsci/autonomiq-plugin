@@ -34,9 +34,11 @@ import io.jenkins.plugins.autonomiq.service.types.Environment;
 
 import javax.servlet.ServletException;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -1258,7 +1260,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
                 @QueryParameter String proxyPort,
                 @QueryParameter String proxyUser,
                 @QueryParameter Secret proxyPassword,
-                @QueryParameter Boolean httpProxy) throws ServiceException {
+                @QueryParameter Boolean httpProxy) throws ServiceException, InvocationTargetException {
 
 
         	if (environmentTypeTestcases.equalsIgnoreCase("Saucelabs")) {
@@ -1449,7 +1451,7 @@ else
                 @QueryParameter String proxyPort,
                 @QueryParameter String proxyUser,
                 @QueryParameter Secret proxyPassword,
-                @QueryParameter Boolean httpProxy) throws ServiceException {
+                @QueryParameter Boolean httpProxy) throws ServiceException, InvocationTargetException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
 
@@ -2025,7 +2027,7 @@ else
             // fetching env type
         private String[] getEnvironmentType(String aiqUrl, String login, Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
             int i =0;
-        	String[] EnvironmentType= new String[5];
+        	String[] EnvironmentType= new String[10];
         	//EnvironmentType[0]="--select environmenttype--";
             try {
                 ServiceAccess svc = AutonomiqBuilder.getServiceAccess(proxyHost, proxyPort, proxyUser, proxyPassword, aiqUrl, login, password, httpProxy);
@@ -2036,7 +2038,7 @@ else
 	            	 for (Environment t1:d)
 	            	 {
 	            		 String z = t1.getenvironmentType();
-	            		 if(!z.equalsIgnoreCase("Zalenium"))
+	            		 if(!z.equalsIgnoreCase("Zalenium") && !z.equalsIgnoreCase("saucelab_devices")
 	            		 {
 	            			 //z="Remote";
 	            			 EnvironmentType[i]=z;
@@ -2057,6 +2059,8 @@ else
             for(String s : EnvironmentType) {
                if(s != null && s.length() > 0) {
                   list.add(s);
+                  Collections.sort(list, Collections.reverseOrder());
+
                }
             }
             EnvironmentType = list.toArray(new String[list.size()]);
@@ -2068,18 +2072,20 @@ else
         private String[] getplatformType(String environmentType,String aiqUrl, String login, Secret password, String proxyHost,
                  String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
             int i =0;
-        	String[] platform1= new String[12];
+        	String[] platform1= new String[100];
 
         	//platform1[0]="--select platform--";
-
-            try {
+        		try {
                 ServiceAccess svc = AutonomiqBuilder.getServiceAccess(proxyHost, proxyPort, proxyUser, proxyPassword, aiqUrl, login, password, httpProxy);
 
             	List<ExecutionEnvironment> envInfo=svc.executionEnvironment();
 
+
 				for (ExecutionEnvironment t:envInfo) {
 
+
 	            	 Integer a=t.getaccountId();
+
 	            	 ArrayList<Environment> d=t.getenvironments();
 
 	            	 for (Environment t1:d)
@@ -2089,41 +2095,38 @@ else
 
 	            		 	if(z.equalsIgnoreCase("Saucelabs"))
 	            		 	{
-
 	            		 		Environment2 env2=t1.getenvironment();
 
 	   	            		 ArrayList<PlatformDetail> td = env2.getplatformDetails();
+
 	   	            		  	 String  sdc = env2.getsauceDataCentreName();
 	   	            		     String sp=env2.getsaucePassword();
 	   	            		     String su=env2.getsauceUsername();
-
 	   	            		     for(PlatformDetail pD:td) {
 	   	            		    	String platform=pD.getplatform();
 	   	            		    	platform1[i]=platform;
 	   	   	            		 	i++;
-
 	            		 	}
-
-	            		     }
-
+	                    }
 	            	 }
 
 				}
+              } catch (Exception e) {
+            throw new ServiceException("Exception in getting platform");
+        }
 
-            } catch (Exception e) {
-                throw new ServiceException("Exception in getting platform");
-            }
             LinkedHashSet<String> lhSetColors =
                     new LinkedHashSet<String>(Arrays.asList(platform1));
             lhSetColors.remove(null);
        	 String[] newArray = lhSetColors.toArray(new String[ lhSetColors.size()]);
             return newArray;
         }
+
             //browser details
         private String[] getBrowser(String environmentType,String platformTestSuites,String aiqUrl, String login,
         Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
             int i =0;
-        	String[] Browser= new String[12];
+        	String[] Browser= new String[100];
         	//Browser[0]="--select browser--";
             try {
                 ServiceAccess svc = AutonomiqBuilder.getServiceAccess(proxyHost, proxyPort, proxyUser, proxyPassword,
@@ -2186,7 +2189,7 @@ else
         private String[] getBrowserVersion(String platformTestSuites,String browserTestSuites,String aiqUrl, String login,
          Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
             int i =0;
-        	String[] BrowserVersion= new String[12];
+        	String[] BrowserVersion= new String[100];
 
             try {
                 ServiceAccess svc = AutonomiqBuilder.getServiceAccess(proxyHost, proxyPort, proxyUser, proxyPassword, aiqUrl, login, password, httpProxy);
@@ -2210,7 +2213,7 @@ else
 	            		     String su = env2.getsauceUsername();
 
 	            		     for(PlatformDetail pD:platformvalues) {
-	            		    	 String browser=pD.getbrowser();
+                                     String browser=pD.getbrowser();
 	            		    	 String platform=pD.getplatform();
 	            		    	 if (browser.equalsIgnoreCase(browserTestSuites) && platform.equalsIgnoreCase(platformTestSuites))
 	            		    	 {
@@ -2280,7 +2283,7 @@ else
         private String[] getMobileversion(String mobileplatform,String aiqUrl, String login, Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
             System.out.println("value in mobile version"+mobileplatform);
         	int i =0;
-        	String[] Mobileplatformversion= new String[12];
+        	String[] Mobileplatformversion= new String[100];
         	//Browser[0]="--select browser--";
             try {
                 ServiceAccess svc = AutonomiqBuilder.getServiceAccess(proxyHost, proxyPort, proxyUser, proxyPassword, aiqUrl, login, password, httpProxy);
@@ -2334,7 +2337,7 @@ else
             System.out.println("value in mobileVersion"+mobileVersion);
             System.out.println("value in mobileVersion length:-"+mobileVersion.length());
         	int i =0;
-        	String[] MobileDeviceName= new String[12];
+        	String[] MobileDeviceName= new String[100];
         	//Browser[0]="--select browser--";
             try {
                 ServiceAccess svc = AutonomiqBuilder.getServiceAccess(proxyHost, proxyPort, proxyUser, proxyPassword, aiqUrl, login, password, httpProxy);
