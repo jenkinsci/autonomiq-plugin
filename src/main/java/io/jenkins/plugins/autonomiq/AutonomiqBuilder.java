@@ -829,6 +829,16 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
     @Extension
     public static final class DescriptorImpl extends BuildStepDescriptor<Builder> {
 
+        @SuppressWarnings("unused")
+        @POST
+        public FormValidation doCheckGenScripts(@QueryParameter String value, @QueryParameter String genScripts)
+                throws IOException, ServletException {
+        	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        	System.out.println("value of mystring param0:"+value.length());
+
+            return FormValidation.ok();
+        }
+
     	@SuppressWarnings("unused")
         @POST
         public FormValidation doCheckAiqUrl(@QueryParameter String value, @QueryParameter String aiqUrl)
@@ -2368,7 +2378,7 @@ else
 	            		    		 System.out.println(MobileDeviceName[i]);
 		            		    		i++;
 	            		    	 }
-	            		    	 if (platformversion.equalsIgnoreCase(mobileVersion))
+	            		    	 if (platformversion.contains(mobileVersion))
 	            		    	 {
 	            		    		 String DN=pD.getdevice();
 	            		    		 MobileDeviceName[i]=DN;
