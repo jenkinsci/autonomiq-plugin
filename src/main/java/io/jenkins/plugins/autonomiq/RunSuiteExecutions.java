@@ -70,7 +70,6 @@ class RunSuiteExecutions {
         logTestSuiteNames();
 
         return handleSuiteExecutions(platform, browser,executionMode,environmentType,browserVersion,platformVersion,sauceConnectProxy ,mobileplatformTestSuites,mobilePlatformVersion,deviceName,mobileSauceConnectProxy,mobileExecutionMode,deviceOrientation,enableAnimations,autoGrantPermission,mobileDevice,crossBrowser,value);
-);
 
     }
 

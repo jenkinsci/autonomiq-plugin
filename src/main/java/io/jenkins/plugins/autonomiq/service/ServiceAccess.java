@@ -158,7 +158,6 @@ public class ServiceAccess {
     public ExecutedTaskResponse runTestCase(Long projectId, Long scriptId,
                                             String testExecutionName,
                                             String platform, String browser,
-                                            String executionType,String environmentTypeTestcases,
                                             String executionType,String environmentTypeTestcases,String browserVersionTestcases,String sauceConnectProxyTestcases,String mobileplatformTestcases,String mobilePlatformVersionTc,String deviceNameTestcases,String mobileSauceConnectProxyTc,String deviceOrientationTc,String enableAnimationsTc,String autoGrantPermissionTc,Boolean mobileDeviceTestcases,Boolean crossBrowserTestcases,String value) throws ServiceException {
     	
         String sessionId = createSession();
