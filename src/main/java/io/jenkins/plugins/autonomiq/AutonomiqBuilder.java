@@ -2,12 +2,13 @@ package io.jenkins.plugins.autonomiq;
 
 import hudson.Launcher;
 import hudson.Extension;
+import hudson.XmlFile;
 import hudson.FilePath;
 import hudson.model.*;
 import hudson.util.FormValidation;
 import hudson.tasks.Builder;
 import hudson.tasks.BuildStepDescriptor;
-
+import org.kohsuke.stapler.export.Exported;
 import hudson.util.ListBoxModel;
 import hudson.util.ListBoxModel.Option;
 import io.jenkins.plugins.autonomiq.Messages;
@@ -303,7 +304,8 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
 
     @SuppressWarnings("unused")
     public Boolean getCrossBrowser() {
-        return crossBrowser;
+        System.out.println("value inside methods databounders"+ crossBrowser);
+        return true;
     }
 
     @SuppressWarnings("unused")
@@ -750,8 +752,6 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
     public String getSauceConnectProxyTestcases() {
         return sauceConnectProxyTestcases;
     }
-
-
 
 
     private static ServiceAccess getServiceAccess(String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword,
@@ -1299,7 +1299,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
 
                  return  new ListBoxModel(options);
         	}
-else
+        else
         	return new ListBoxModel();
 
         }
@@ -1320,7 +1320,16 @@ else
            	  platformTestCases="Android";
              }
 
-        	if( environmentTypeTestcases.equalsIgnoreCase("Saucelabs"))
+        	if (environmentTypeTestcases.equalsIgnoreCase("Saucelabs") && platformTestCases.equalsIgnoreCase("Android"))
+        	{
+        		//String[] values= getMobileversion(platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+   				String[] values = {"NotApplicable"};
+   				Option[] options = buildSimpleOptions(values);
+
+   				return new ListBoxModel(options);
+        	}
+
+        	else if ((environmentTypeTestcases.equalsIgnoreCase("Saucelabs")) && (platformTestCases.equalsIgnoreCase("macOS 11.00") || platformTestCases.equalsIgnoreCase("macOS 10.15")||platformTestCases.equalsIgnoreCase("Windows 10")))
         	{
        				String[] values= getBrowser(environmentTypeTestcases,platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
        				Option[] options = buildSimpleOptions(values);
@@ -1370,16 +1379,24 @@ else
            	  platformTestCases="Android";
              }
 
-        	if( environmentTypeTestcases.equalsIgnoreCase("Saucelabs"))
-{
-        	    String[] values= getBrowserVersion(platformTestCases,browserTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+        	if (environmentTypeTestcases.equalsIgnoreCase("Saucelabs") && platformTestCases.equalsIgnoreCase("Android"))
+        	{
+   				//String[] values= getMobileversion(platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+   				String[] values = {"NotApplicable"};
+   				Option[] options = buildSimpleOptions(values);
+
+   				return new ListBoxModel(options);
+    	   }
+        	else if ((environmentTypeTestcases.equalsIgnoreCase("Saucelabs")) && (platformTestCases.equalsIgnoreCase("macOS 11.00") || platformTestCases.equalsIgnoreCase("macOS 10.15")||platformTestCases.equalsIgnoreCase("Windows 10")))
+        	{
+        		 String[] values= getBrowserVersion(platformTestCases,browserTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
                  Option[] options = buildSimpleOptions(values);
                  return new ListBoxModel(options);
 
         	}
         	else if (environmentTypeTestcases.equalsIgnoreCase("Local"))
         	{
-                if((platformTestCases.equalsIgnoreCase("Linux"))&&(browserTestCases.equalsIgnoreCase("Chrome (headless)") || browserTestCases.equalsIgnoreCase("Firefox (headless)") || browserTestCases.equalsIgnoreCase("Chrome (headful)") || browserTestCases.equalsIgnoreCase("Firefox (headful)") || browserTestCases.equalsIgnoreCase("Chrome") || browserTestCases.length()==0))
+				if((platformTestCases.equalsIgnoreCase("Linux"))&&(browserTestCases.equalsIgnoreCase("Chrome (headless)") || browserTestCases.equalsIgnoreCase("Firefox (headless)") || browserTestCases.equalsIgnoreCase("Chrome (headful)") || browserTestCases.equalsIgnoreCase("Firefox (headful)") || browserTestCases.equalsIgnoreCase("Chrome") || browserTestCases.length()==0))
         		{
              		String[] values = {"NotApplicable"};  //, "Windows"};
                     Option[] options = buildSimpleOptions(values);
@@ -1454,6 +1471,8 @@ else
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
             String[] values= getEnvironmentType(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
         	Option[] options = buildSimpleOptions(values);
+        	System.out.println(options);
+
 
             return  new ListBoxModel(options);
         	}
@@ -1521,7 +1540,15 @@ else
            	  platformTestCases="Android";
              }
 
-        	if (environmentType.equalsIgnoreCase("Saucelabs"))
+        	if (environmentType.equalsIgnoreCase("Saucelabs") && platformTestSuites.equalsIgnoreCase("Android"))
+        	{
+       				//String[] values= getBrowser(environmentType,platformTestSuites,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+        		    String[] values = {"NotApplicable"};
+        		    Option[] options = buildSimpleOptions(values);
+
+       				return new ListBoxModel(options);
+        	}
+        	else if ((environmentType.equalsIgnoreCase("Saucelabs")) && (platformTestSuites.equalsIgnoreCase("macOS 11.00") || platformTestSuites.equalsIgnoreCase("macOS 10.15")|| platformTestSuites.equalsIgnoreCase("Windows 10")))
         	{
        				String[] values= getBrowser(environmentType,platformTestSuites,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
        				Option[] options = buildSimpleOptions(values);
@@ -1532,9 +1559,9 @@ else
         	else if (environmentType.equalsIgnoreCase("Local"))
         	{
 
-        	if (platformTestSuites.equalsIgnoreCase("Linux"))
-        	{
-        		  String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
+        	   if (platformTestSuites.equalsIgnoreCase("Linux"))
+        	   {
+       			String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
                 Option[] options = buildSimpleOptions(values);
 
                 return new ListBoxModel(options);
@@ -1555,6 +1582,7 @@ else
             return new ListBoxModel();
         }
 
+
         @SuppressWarnings("unused")
         @POST
         public ListBoxModel doFillBrowserVersionItems(@QueryParameter String environmentType,@QueryParameter String platformTestSuites,@QueryParameter String browserTestSuites,@QueryParameter String aiqUrl,
@@ -1573,24 +1601,30 @@ else
            	  platformTestCases="Android";
              }
 
-        	if( environmentType.equalsIgnoreCase("Saucelabs"))
-{
-        	if (browserTestSuites.equalsIgnoreCase("chrome") || browserTestSuites.equalsIgnoreCase("firefox") || browserTestSuites.equalsIgnoreCase("safari") || browserTestSuites.equalsIgnoreCase("MicrosoftEdge"))
+        	if (environmentType.equalsIgnoreCase("Saucelabs") && platformTestSuites.equalsIgnoreCase("Android"))
         	{
+        		 //String[] values= getBrowserVersion(platformTestSuites,browserTestSuites,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+        		String[] values = {"NotApplicable"};
+        		Option[] options = buildSimpleOptions(values);
+                 return new ListBoxModel(options);
+        	}
 
-                String[] values= getBrowserVersion(platformTestSuites,browserTestSuites,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
-                Option[] options = buildSimpleOptions(values);
-                return new ListBoxModel(options);
-             	}
+        	else if ((environmentType.equalsIgnoreCase("Saucelabs")) && (platformTestSuites.equalsIgnoreCase("macOS 11.00") || platformTestSuites.equalsIgnoreCase("macOS 10.15")||platformTestSuites.equalsIgnoreCase("Windows 10")))
+        	{
+        		 String[] values= getBrowserVersion(platformTestSuites,browserTestSuites,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+                 Option[] options = buildSimpleOptions(values);
+                 return new ListBoxModel(options);
 
         	}
+
         	else if (environmentType.equalsIgnoreCase("Local"))
         	{
         		try {
 					if((platformTestSuites.equalsIgnoreCase("Linux"))&&(browserTestSuites.equalsIgnoreCase("Chrome (headless)") || browserTestSuites.equalsIgnoreCase("Firefox (headless)") || browserTestSuites.equalsIgnoreCase("Chrome (headful)") || browserTestSuites.equalsIgnoreCase("Firefox (headful)") || browserTestSuites.equalsIgnoreCase("Chrome") || browserTestSuites.length()==0))
-   					{
+					{
 						String[] values = {"NotApplicable"};  //, "Windows"};
 					    Option[] options = buildSimpleOptions(values);
+
 					    return new ListBoxModel(options);
 
      	  }
@@ -1605,14 +1639,13 @@ else
                  Option[] options = buildSimpleOptions(values);
                  return  new ListBoxModel(options);
         	}
-else
+        	else
         	{
         		return new ListBoxModel();
         	}
 
         	return new ListBoxModel();
         }
-
 
 
         @SuppressWarnings("unused")
@@ -1701,7 +1734,7 @@ else
 
         @SuppressWarnings("unused")
         @POST
-        public ListBoxModel doFillMobileSauceConnectProxyTcItems(@QueryParameter String aiqUrl,
+        public ListBoxModel doFillMobileSauceConnectProxyTcItems(@QueryParameter String aiqUrl, @QueryParameter Boolean mobileplatformTestSuites,
                 @QueryParameter String login,
                 @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
@@ -1710,6 +1743,7 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) throws ServiceException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        	System.out.println("values of boolean"+mobileplatformTestSuites);
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
 
             String[] values= getSauceconnect(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
@@ -1791,7 +1825,7 @@ else
 
         @SuppressWarnings("unused")
         @POST
-        public ListBoxModel doFillMobilePlatformVersionItems(@QueryParameter String mobileplatformTestSuites,@QueryParameter String aiqUrl,
+        public ListBoxModel doFillMobilePlatformVersionItems(@QueryParameter String environmentType,@QueryParameter String platformTestSuites,@QueryParameter String mobileplatformTestSuites,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
@@ -1803,23 +1837,52 @@ else
         	if(platformTestSuites.equalsIgnoreCase("Android (Beta)")){
       		  platformTestSuites="Android";
             }
-        	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
 
+            if (environmentType.equalsIgnoreCase("Saucelabs") && platformTestSuites.equalsIgnoreCase("Android"))
+        	{
+       				String[] values= getMobileversion(platformTestSuites,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+       				Option[] options = buildSimpleOptions(values);
 
-        	String[] values= getMobileversion(mobileplatformTestSuites,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
-				Option[] options = buildSimpleOptions(values);
-            //String[] values = {"11","12"};
+       				return new ListBoxModel(options);
+        	}
+        	else if ((environmentType.equalsIgnoreCase("Saucelabs")) && (platformTestSuites.equalsIgnoreCase("macOS 11.00") || platformTestSuites.equalsIgnoreCase("macOS 10.15")||platformTestSuites.equalsIgnoreCase("Windows 10")))
+        	{
+       				//String[] values= getMobileversion(platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+       				String[] values = {"NotApplicable"};
+       				Option[] options = buildSimpleOptions(values);
 
-            //Option[] options = buildSimpleOptions(values);
+       				return new ListBoxModel(options);
+        	}
+        	else if (environmentType.equalsIgnoreCase("Local"))
+        	{
 
-            return new ListBoxModel(options);
-        }
-        	return new ListBoxModel();
+        	   if (platformTestSuites.equalsIgnoreCase("Linux"))
+        	   {
+        		   String[] values = {"NotApplicable"};
+       			//String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
+                Option[] options = buildSimpleOptions(values);
+
+                return new ListBoxModel(options);
+        	   }
+        	}
+        	else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
+        	{
+
+   			 String[] values = {"NotApplicable"};
+                Option[] options = buildSimpleOptions(values);
+
+                return  new ListBoxModel(options);
+        	}
+        	else
+        	{
+        		return new ListBoxModel();
+        	}
+            return new ListBoxModel();
         }
 
         @SuppressWarnings("unused")
         @POST
-        public ListBoxModel doFillMobilePlatformVersionTcItems(@QueryParameter String mobileplatformTestcases,@QueryParameter String aiqUrl,
+        public ListBoxModel doFillMobilePlatformVersionTcItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String platformTestCases,@QueryParameter String mobileplatformTestcases,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
@@ -1831,18 +1894,48 @@ else
         	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
         		platformTestCases="Android";
             }
-        	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
+        	if (environmentTypeTestcases.equalsIgnoreCase("Saucelabs") && platformTestCases.equalsIgnoreCase("Android"))
+        	{
+       				String[] values= getMobileversion(platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+       				Option[] options = buildSimpleOptions(values);
 
+       				return new ListBoxModel(options);
+        	}
+        	else if ((environmentTypeTestcases.equalsIgnoreCase("Saucelabs")) && (platformTestCases.equalsIgnoreCase("macOS 11.00") || platformTestCases.equalsIgnoreCase("macOS 10.15")||platformTestCases.equalsIgnoreCase("Windows 10")))
+        	{
+       				//String[] values= getMobileversion(platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+       				String[] values = {"NotApplicable"};
+       				Option[] options = buildSimpleOptions(values);
 
-        	String[] values= getMobileversion(mobileplatformTestcases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
-				Option[] options = buildSimpleOptions(values);
-            //String[] values = {"11","12"};
+       				return new ListBoxModel(options);
+        	}
 
-            //Option[] options = buildSimpleOptions(values);
+        	else if (environmentTypeTestcases.equalsIgnoreCase("Local"))
+        	{
 
-            return new ListBoxModel(options);
-        }
-        	return new ListBoxModel();
+        	   if (platformTestCases.equalsIgnoreCase("Linux"))
+        	   {
+        		   String[] values = {"NotApplicable"};
+       			//String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
+                Option[] options = buildSimpleOptions(values);
+
+                return new ListBoxModel(options);
+        	   }
+        	}
+
+        	else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
+        	{
+
+   			 String[] values = {"NotApplicable"};
+                Option[] options = buildSimpleOptions(values);
+
+                return  new ListBoxModel(options);
+        	}
+        	else
+        	{
+        		return new ListBoxModel();
+        	}
+            return new ListBoxModel();
         }
 
         @SuppressWarnings("unused")
@@ -1860,20 +1953,52 @@ else
         		platformTestSuites="Android";
              }
 
-        	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
+        	if (environmentType.equalsIgnoreCase("Saucelabs") && platformTestSuites.equalsIgnoreCase("Android"))
+        	{
 
+       				String[] values= getDevice(platformTestSuites,mobilePlatformVersion,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+       				Option[] options = buildSimpleOptions(values);
 
-        	String[] values= getDevice(mobileplatformTestSuites,mobilePlatformVersion,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
-			Option[] options = buildSimpleOptions(values);
+       				return new ListBoxModel(options);
+        	}
+        	else if ((environmentType.equalsIgnoreCase("Saucelabs")) && (platformTestSuites.equalsIgnoreCase("macOS 11.00") || platformTestSuites.equalsIgnoreCase("macOS 10.15")||platformTestSuites.equalsIgnoreCase("Windows 10")))
+        	{
+       				//String[] values= getMobileversion(platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+       				String[] values = {"NotApplicable"};
+       				Option[] options = buildSimpleOptions(values);
 
-            return new ListBoxModel(options);
-        }
-        	return new ListBoxModel();
+       				return new ListBoxModel(options);
+        	}
+        	else if (environmentType.equalsIgnoreCase("Local"))
+        	{
+
+        	   if (platformTestSuites.equalsIgnoreCase("Linux"))
+        	   {
+        		   String[] values = {"NotApplicable"};
+       			//String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
+                Option[] options = buildSimpleOptions(values);
+
+                return new ListBoxModel(options);
+        	   }
+        	}
+        	else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
+        	{
+
+   			    String[] values = {"NotApplicable"};
+                Option[] options = buildSimpleOptions(values);
+
+                return  new ListBoxModel(options);
+        	}
+        	else
+        	{
+        		return new ListBoxModel();
+        	}
+            return new ListBoxModel();
         }
 
         @SuppressWarnings("unused")
         @POST
-        public ListBoxModel doFillDeviceNameTestcasesItems(@QueryParameter String mobileplatformTestcases,@QueryParameter String mobilePlatformVersionTc,@QueryParameter String aiqUrl,
+        public ListBoxModel doFillDeviceNameTestcasesItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String platformTestCases,@QueryParameter String mobilePlatformVersionTc,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
@@ -1886,19 +2011,54 @@ else
         		platformTestCases="Android";
              }
 
-        	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
+        	if (environmentTypeTestcases.equalsIgnoreCase("Saucelabs") && platformTestCases.equalsIgnoreCase("Android"))
+        	{
+       				String[] values= getDevice(platformTestCases,mobilePlatformVersionTc,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+       				Option[] options = buildSimpleOptions(values);
 
-
-        	String[] values= getDevice(mobileplatformTestcases,mobilePlatformVersionTc,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
-			Option[] options = buildSimpleOptions(values);
-
-            return new ListBoxModel(options);
+       				return new ListBoxModel(options);
         	}
-          return new ListBoxModel();
+        	else if ((environmentTypeTestcases.equalsIgnoreCase("Saucelabs")) && (platformTestCases.equalsIgnoreCase("macOS 11.00") || platformTestCases.equalsIgnoreCase("macOS 10.15")||platformTestCases.equalsIgnoreCase("Windows 10")))
+        	{
+       				//String[] values= getMobileversion(platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+       				String[] values = {"NotApplicable"};
+       				Option[] options = buildSimpleOptions(values);
+
+       				return new ListBoxModel(options);
+        	}
+
+        	else if (environmentTypeTestcases.equalsIgnoreCase("Local"))
+        	{
+
+        	   if (platformTestCases.equalsIgnoreCase("Linux"))
+        	   {
+        		   String[] values = {"NotApplicable"};
+       			//String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
+                Option[] options = buildSimpleOptions(values);
+
+                return new ListBoxModel(options);
+        	   }
+        	}
+
+        	else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
+        	{
+
+   			    String[] values = {"NotApplicable"};
+                Option[] options = buildSimpleOptions(values);
+
+                return  new ListBoxModel(options);
+        	}
+        	else
+        	{
+        		return new ListBoxModel();
+        	}
+            return new ListBoxModel();
         }
+
+
         @SuppressWarnings("unused")
         @POST
-        public ListBoxModel doFillDeviceOrientationItems(
+        public ListBoxModel doFillDeviceOrientationItems(@QueryParameter String environmentType,@QueryParameter String platformTestSuites,
         		@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter Secret password,
@@ -1909,24 +2069,52 @@ else
                 @QueryParameter Boolean httpProxy) {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
-        	if(platformTestSuites.equalsIgnoreCase("Android (Beta)")){
-        		platformTestSuites="Android";
-              }
-        	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
+        	if (environmentType.equalsIgnoreCase("Saucelabs") && platformTestSuites.equalsIgnoreCase("Android"))
+        	{
+    			  String[] values = {"Portrait","Landscape"};
 
+    	            Option[] options = buildSimpleOptions(values);
 
-            String[] values = {"Portrait","Landscape"};
+    	            return new ListBoxModel(options);
+        	}
+    		else if ((environmentType.equalsIgnoreCase("Saucelabs")) && (platformTestSuites.equalsIgnoreCase("macOS 11.00") || platformTestSuites.equalsIgnoreCase("macOS 10.15")||platformTestSuites.equalsIgnoreCase("Windows 10")))
+        	{
+       				//String[] values= getMobileversion(platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+       				String[] values = {"NotApplicable"};
+       				Option[] options = buildSimpleOptions(values);
 
-            Option[] options = buildSimpleOptions(values);
+       				return new ListBoxModel(options);
+        	}
+    		else if (environmentType.equalsIgnoreCase("Local"))
+        	{
 
-            return new ListBoxModel(options);
+        	   if (environmentType.equalsIgnoreCase("Linux"))
+        	   {
+        		   String[] values = {"NotApplicable"};
+       			//String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
+                Option[] options = buildSimpleOptions(values);
+
+                return new ListBoxModel(options);
+        	   }
+        	}
+    		else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
+        	{
+    			 String[] values = {"NotApplicable"};
+                 Option[] options = buildSimpleOptions(values);
+
+                 return  new ListBoxModel(options);
+        	}
+    		else
+        	{
+        		return new ListBoxModel();
+        	}
+            return new ListBoxModel();
         }
-        	return new ListBoxModel();
-        }
+
 
         @SuppressWarnings("unused")
         @POST
-        public ListBoxModel doFillDeviceOrientationTcItems(
+        public ListBoxModel doFillDeviceOrientationTcItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String platformTestCases,
         		@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter Secret password,
@@ -1937,25 +2125,54 @@ else
                 @QueryParameter Boolean httpProxy) {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
-        	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
-        		platformTestCases="Android";
-              }
+        	if (environmentTypeTestcases.equalsIgnoreCase("Saucelabs") && platformTestCases.equalsIgnoreCase("Android"))
+            	{
+        			  String[] values = {"Portrait","Landscape"};
 
-        	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
-            String[] values = {"Portrait","Landscape"};
+        	            Option[] options = buildSimpleOptions(values);
 
-            Option[] options = buildSimpleOptions(values);
+        	            return new ListBoxModel(options);
+            	}
+        		else if ((environmentTypeTestcases.equalsIgnoreCase("Saucelabs")) && (platformTestCases.equalsIgnoreCase("macOS 11.00") || platformTestCases.equalsIgnoreCase("macOS 10.15")||platformTestCases.equalsIgnoreCase("Windows 10")))
+            	{
+           				//String[] values= getMobileversion(platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+           				String[] values = {"NotApplicable"};
+           				Option[] options = buildSimpleOptions(values);
 
-            return new ListBoxModel(options);
-        	}
-        	return new ListBoxModel();
+           				return new ListBoxModel(options);
+            	}
+        		else if (environmentTypeTestcases.equalsIgnoreCase("Local"))
+            	{
+
+            	   if (platformTestCases.equalsIgnoreCase("Linux"))
+            	   {
+            		   String[] values = {"NotApplicable"};
+           			//String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
+                    Option[] options = buildSimpleOptions(values);
+
+                    return new ListBoxModel(options);
+            	   }
+            	}
+        		else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
+            	{
+        			 String[] values = {"NotApplicable"};
+                     Option[] options = buildSimpleOptions(values);
+
+                     return  new ListBoxModel(options);
+            	}
+        		else
+            	{
+            		return new ListBoxModel();
+            	}
+                return new ListBoxModel();
+
         }
 
 
         @SuppressWarnings("unused")
         @POST
-        public ListBoxModel doFillEnableAnimationsItems(@QueryParameter String aiqUrl,
-                @QueryParameter String login,
+        public ListBoxModel doFillEnableAnimationsItems(@QueryParameter String environmentType,@QueryParameter String platformTestSuites,@QueryParameter String aiqUrl,
+                    @QueryParameter String login,
                 @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
                 @QueryParameter String proxyPort,
@@ -1967,21 +2184,50 @@ else
         	if(platformTestSuites.equalsIgnoreCase("Android (Beta)")){
         		platformTestSuites="Android";
             }
-        	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
+        	if (environmentType.equalsIgnoreCase("Saucelabs") && platformTestSuites.equalsIgnoreCase("Android"))
+        	{
+    			   String[] values = {"false","true"};
+                               Option[] options = buildSimpleOptions(values);
+                                 return new ListBoxModel(options);
+        	}
+    		else if ((environmentType.equalsIgnoreCase("Saucelabs")) && (platformTestSuites.equalsIgnoreCase("macOS 11.00") || platformTestSuites.equalsIgnoreCase("macOS 10.15")||platformTestSuites.equalsIgnoreCase("Windows 10")))
+        	{
+       				//String[] values= getMobileversion(platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+       				String[] values = {"NotApplicable"};
+       				Option[] options = buildSimpleOptions(values);
 
+       				return new ListBoxModel(options);
+        	}
+    		else if (environmentType.equalsIgnoreCase("Local"))
+        	{
 
-            String[] values = {"false","true"};
-            Option[] options = buildSimpleOptions(values);
+        	   if (platformTestSuites.equalsIgnoreCase("Linux"))
+        	   {
+        		   String[] values = {"NotApplicable"};
+       			//String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
+                Option[] options = buildSimpleOptions(values);
 
-            return new ListBoxModel(options);
-        }
-        	return new ListBoxModel();
+                return new ListBoxModel(options);
+        	   }
+        	}
+    		else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
+        	{
+    			 String[] values = {"NotApplicable"};
+                 Option[] options = buildSimpleOptions(values);
+
+                 return  new ListBoxModel(options);
+        	}
+    		else
+        	{
+        		return new ListBoxModel();
+        	}
+            return new ListBoxModel();
         }
 
         @SuppressWarnings("unused")
         @POST
-        public ListBoxModel doFillEnableAnimationsTcItems(@QueryParameter String aiqUrl,
-                @QueryParameter String login,
+        public ListBoxModel doFillEnableAnimationsTcItems(
+        		@QueryParameter String environmentTypeTestcases,@QueryParameter String platformTestCases,@QueryParameter String aiqUrl,                @QueryParameter String login,
                 @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
                 @QueryParameter String proxyPort,
@@ -1992,18 +2238,49 @@ else
         	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
         		platformTestCases="Android";
               }
-        	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
-            String[] values = {"false","true"};
-            Option[] options = buildSimpleOptions(values);
+        	if (environmentTypeTestcases.equalsIgnoreCase("Saucelabs") && platformTestCases.equalsIgnoreCase("Android"))
+        	{
+    			   String[] values = {"false","true"};
+                               Option[] options = buildSimpleOptions(values);
+                                 return new ListBoxModel(options);
+        	}
+    		else if ((environmentTypeTestcases.equalsIgnoreCase("Saucelabs")) && (platformTestCases.equalsIgnoreCase("macOS 11.00") || platformTestCases.equalsIgnoreCase("macOS 10.15")||platformTestCases.equalsIgnoreCase("Windows 10")))
+        	{
+       				//String[] values= getMobileversion(platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+       				String[] values = {"NotApplicable"};
+       				Option[] options = buildSimpleOptions(values);
 
-            return new ListBoxModel(options);
-        }
-        	return new ListBoxModel();
-        }
+       				return new ListBoxModel(options);
+        	}
+    		else if (environmentTypeTestcases.equalsIgnoreCase("Local"))
+        	{
+
+        	   if (platformTestCases.equalsIgnoreCase("Linux"))
+        	   {
+        		   String[] values = {"NotApplicable"};
+       			//String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
+                Option[] options = buildSimpleOptions(values);
+
+                return new ListBoxModel(options);
+        	   }
+        	}
+    		else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
+        	{
+    			 String[] values = {"NotApplicable"};
+                 Option[] options = buildSimpleOptions(values);
+
+                 return  new ListBoxModel(options);
+        	}
+    		else
+        	{
+        		return new ListBoxModel();
+        	}
+            return new ListBoxModel();
+    }
 
         @SuppressWarnings("unused")
         @POST
-        public ListBoxModel doFillAutoGrantPermissionItems(@QueryParameter String aiqUrl,
+        public ListBoxModel doFillAutoGrantPermissionItems(@QueryParameter String environmentType,@QueryParameter String platformTestSuites,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
@@ -2015,18 +2292,49 @@ else
         	if(platformTestSuites.equalsIgnoreCase("Android (Beta)")){
         		platformTestSuites="Android";
               }
-        	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
-            String[] values = {"false","true"};
-            Option[] options = buildSimpleOptions(values);
+        	if (environmentType.equalsIgnoreCase("Saucelabs") && platformTestSuites.equalsIgnoreCase("Android"))
+        	{
+    			   String[] values = {"false","true"};
+                               Option[] options = buildSimpleOptions(values);
+                                 return new ListBoxModel(options);
+        	}
+    		else if ((environmentType.equalsIgnoreCase("Saucelabs")) && (platformTestSuites.equalsIgnoreCase("macOS 11.00") || platformTestSuites.equalsIgnoreCase("macOS 10.15")||platformTestSuites.equalsIgnoreCase("Windows 10")))
+        	{
+       				//String[] values= getMobileversion(platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+       				String[] values = {"NotApplicable"};
+       				Option[] options = buildSimpleOptions(values);
 
-            return new ListBoxModel(options);
-        }
-        	return new ListBoxModel();
+       				return new ListBoxModel(options);
+        	}
+    		else if (environmentType.equalsIgnoreCase("Local"))
+        	{
+
+        	   if (platformTestSuites.equalsIgnoreCase("Linux"))
+        	   {
+        		   String[] values = {"NotApplicable"};
+       			//String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
+                Option[] options = buildSimpleOptions(values);
+
+                return new ListBoxModel(options);
+        	   }
+        	}
+    		else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
+        	{
+    			 String[] values = {"NotApplicable"};
+                 Option[] options = buildSimpleOptions(values);
+
+                 return  new ListBoxModel(options);
+        	}
+    		else
+        	{
+        		return new ListBoxModel();
+        	}
+            return new ListBoxModel();
         }
 
         @SuppressWarnings("unused")
         @POST
-        public ListBoxModel doFillAutoGrantPermissionTcItems(@QueryParameter String aiqUrl,
+        public ListBoxModel doFillAutoGrantPermissionTcItems(@QueryParameter String environmentTypeTestcases,@QueryParameter String platformTestCases,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
@@ -2035,17 +2343,46 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
-        	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
-        		platformTestCases="Android";
-              }
-        	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
-            String[] values = {"false","true"};
-            Option[] options = buildSimpleOptions(values);
+        	if (environmentTypeTestcases.equalsIgnoreCase("Saucelabs") && platformTestCases.equalsIgnoreCase("Android"))
+        	{
+    			   String[] values = {"false","true"};
+                               Option[] options = buildSimpleOptions(values);
+                                 return new ListBoxModel(options);
+        	}
+    		else if ((environmentTypeTestcases.equalsIgnoreCase("Saucelabs")) && (platformTestCases.equalsIgnoreCase("macOS 11.00") || platformTestCases.equalsIgnoreCase("macOS 10.15")||platformTestCases.equalsIgnoreCase("Windows 10")))
+        	{
+       				//String[] values= getMobileversion(platformTestCases,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+       				String[] values = {"NotApplicable"};
+       				Option[] options = buildSimpleOptions(values);
 
-            return new ListBoxModel(options);
-        }
-        	return new ListBoxModel();
-        }
+       				return new ListBoxModel(options);
+        	}
+    		else if (environmentTypeTestcases.equalsIgnoreCase("Local"))
+        	{
+
+        	   if (platformTestCases.equalsIgnoreCase("Linux"))
+        	   {
+        		   String[] values = {"NotApplicable"};
+       			//String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
+                Option[] options = buildSimpleOptions(values);
+
+                return new ListBoxModel(options);
+        	   }
+        	}
+    		else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
+        	{
+    			 String[] values = {"NotApplicable"};
+                 Option[] options = buildSimpleOptions(values);
+
+                 return  new ListBoxModel(options);
+        	}
+    		else
+        	{
+        		return new ListBoxModel();
+        	}
+            return new ListBoxModel();
+
+    }
 
         private Option[] getProjectOptions(String aiqUrl, String login, Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
 
@@ -2154,7 +2491,7 @@ else
 
 	            		 String z = t1.getenvironmentType();
 
-	            		 	if(z.equalsIgnoreCase("Saucelabs"))
+	            		 if(z.equalsIgnoreCase("Saucelabs") || z.equalsIgnoreCase("saucelab_devices") )
 	            		 	{
 	            		 		Environment2 env2=t1.getenvironment();
 
@@ -2372,7 +2709,7 @@ else
 	            		     String su=env2.getsauceUsername();
 	            		     for(PlatformDetail pD:td) {
 	            		    	 String platform=pD.getplatform();
-	            		    	 if (platform.equalsIgnoreCase("Android"))
+	            		    	 if (platform.equalsIgnoreCase(mobileplatform))
 	            		    	 {
 	            		    		 String pv=pD.getplatformVersion();
 	            		    		 Mobileplatformversion[i]=pv;
