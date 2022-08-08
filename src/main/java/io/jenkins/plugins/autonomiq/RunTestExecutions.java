@@ -43,10 +43,12 @@ class RunTestExecutions {
 
     public Boolean runTests(String platform,
                             String browser,
-                            String runCaseList,String environmentTypeTestcases,String browserVersionTestcases,String sauceConnectProxyTestcases) throws PluginException, InterruptedException {
+                            String runCaseList,String environmentTypeTestcases,String browserVersionTestcases,String sauceConnectProxyTestcases,
+                            String mobileplatformTestcases,String mobilePlatformVersionTc,String deviceNameTestcases,String mobileSauceConnectProxyTc,String deviceOrientationTc,String enableAnimationsTc,String autoGrantPermissionTc,Boolean mobileDeviceTestcases,Boolean crossBrowserTestcases,String value) throws PluginException, InterruptedException {
 
 
         AiqUtil.ItemListFromString itemsObj = AiqUtil.getItemListFromString(runCaseList);
+        System.out.println("run tests Execution"+browser);
 
         if (itemsObj.getError() != null) {
             log.printf("Error getting item list from run test case list '%s'", itemsObj.getError());
@@ -65,9 +67,9 @@ class RunTestExecutions {
         }
 
         logTestCaseNames();
+        System.out.println("run tests Execution1"+browser);
 
-        return handleTestExecutions(platform, browser,environmentTypeTestcases,browserVersionTestcases,sauceConnectProxyTestcases);
-
+        return handleTestExecutions(platform, browser,environmentTypeTestcases,browserVersionTestcases,sauceConnectProxyTestcases,mobileplatformTestcases,mobilePlatformVersionTc,deviceNameTestcases,mobileSauceConnectProxyTc,deviceOrientationTc,enableAnimationsTc,autoGrantPermissionTc,mobileDeviceTestcases,crossBrowserTestcases,value);
     }
 
     private TestPlan testCaseListToPlan(List<String> caseList) {
@@ -123,8 +125,11 @@ class RunTestExecutions {
     }
 
 
-    private Boolean handleTestExecutions(String platform, String browser,String environmentTypeTestcases,String browserVersionTestcases,String sauceConnectProxyTestcases) throws PluginException, InterruptedException {
+    private Boolean handleTestExecutions(String platform, String browser,String environmentTypeTestcases,String browserVersionTestcases,String sauceConnectProxyTestcases,
+    		            String mobileplatformTestcases,String mobilePlatformVersionTc,String deviceNameTestcases,String mobileSauceConnectProxyTc,String deviceOrientationTc,String enableAnimationsTc,String autoGrantPermissionTc,Boolean mobileDeviceTestcases,Boolean crossBrowserTestcases,String value
+            ) throws PluginException, InterruptedException {
 
+        System.out.println("run tests Execution second"+browser);
         // use last test script in current list for test case
         for (TestCasesResponse r : testCasesById.values()) {
             TestScriptResponse[] scripts = r.getTestScripts();
@@ -144,11 +149,12 @@ class RunTestExecutions {
         log.println();
 
         if (runSequential) {
-            return runSequentialTestExecutions(platform, browser,environmentTypeTestcases,browserVersionTestcases,sauceConnectProxyTestcases);
+            System.out.println("run tests Execution third"+browser);
+            return runSequentialTestExecutions(platform, browser,environmentTypeTestcases,browserVersionTestcases,sauceConnectProxyTestcases,mobileplatformTestcases,mobilePlatformVersionTc,deviceNameTestcases,mobileSauceConnectProxyTc,deviceOrientationTc,enableAnimationsTc,autoGrantPermissionTc,mobileDeviceTestcases,crossBrowserTestcases,value);
         } else {
             try {
                 // runTestsData gets updated with execution ids
-                runTestExecutions(testDataList, platform, browser,environmentTypeTestcases,browserVersionTestcases,sauceConnectProxyTestcases);
+                runTestExecutions(testDataList, platform, browser,environmentTypeTestcases,browserVersionTestcases,sauceConnectProxyTestcases,mobileplatformTestcases,mobilePlatformVersionTc,deviceNameTestcases,mobileSauceConnectProxyTc,deviceOrientationTc,enableAnimationsTc,autoGrantPermissionTc,mobileDeviceTestcases,crossBrowserTestcases,value);
             } catch (ServiceException e) {
                 log.println("Exception running test executions.");
                 log.println(AiqUtil.getExceptionTrace(e));
@@ -190,13 +196,17 @@ class RunTestExecutions {
         return true;
     }
 
-    private Boolean runSequentialTestExecutions(String platform, String browser,String environmentTypeTestcases,String browserVersionTestcases,String sauceConnectProxyTestcases) throws PluginException, InterruptedException {
+    private Boolean runSequentialTestExecutions(String platform, String browser,String environmentTypeTestcases,String browserVersionTestcases,String sauceConnectProxyTestcases,
+    		String mobileplatformTestcases,String mobilePlatformVersionTc,String deviceNameTestcases,String mobileSauceConnectProxyTc,String deviceOrientationTc,String enableAnimationsTc,String autoGrantPermissionTc,Boolean mobileDeviceTestcases,Boolean crossBrowserTestcases,String value
 
+    ) throws PluginException, InterruptedException {
+        System.out.println("value of browser fifth"+browser);
     	if(browser.equalsIgnoreCase("Chrome (headless)")|| browser.equalsIgnoreCase("Firefox (headless)"))
         {
         	String[] splited = browser.split(" ");
         	log.printf("list of platform version inside loop '%s'\n",splited[0]);
-        	browser=splited[0].toLowerCase();	
+        	browser=splited[0].toLowerCase();
+        	System.out.println("value of browser"+browser);
         	//environmentType="Local";
         
         }
@@ -204,6 +214,7 @@ class RunTestExecutions {
         {
         	String[] splited = browser.split(" ");
         	log.printf("list of platform version inside loop '%s'\n",splited[0]);
+        	System.out.println("value of browser"+browser);
         	
         	browser=splited[0].toLowerCase();	
         	environmentTypeTestcases="zalenium";
@@ -231,7 +242,7 @@ class RunTestExecutions {
                 ExecutedTaskResponse resp = svc.runTestCase(pd.getProjectId(), testData.getTestScriptId(),
                         testExecutionName,
                         platform, browser,
-                        executionType,environmentTypeTestcases,browserVersionTestcases,sauceConnectProxyTestcases);
+                        executionType,environmentTypeTestcases,browserVersionTestcases,sauceConnectProxyTestcases,mobileplatformTestcases,mobilePlatformVersionTc,deviceNameTestcases,mobileSauceConnectProxyTc,deviceOrientationTc,enableAnimationsTc,autoGrantPermissionTc,mobileDeviceTestcases,crossBrowserTestcases,value);
                 log.println("Execution started");
 
                 // save execution id
@@ -345,22 +356,24 @@ class RunTestExecutions {
     }
 
     private void runTestExecutions(List<TestCaseData> runTestsData, String platform,
-                                   String browser,String environmentTypeTestcases,String browserVersionTestcases,String sauceConnectProxyTestcases) throws PluginException, ServiceException {
-
-    	if(browser.equalsIgnoreCase("Chrome (headless)")|| browser.equalsIgnoreCase("Firefox (headless)"))
+                                   String browser,String environmentTypeTestcases,String browserVersionTestcases,String sauceConnectProxyTestcases,
+                                   String mobileplatformTestcases,String mobilePlatformVersionTc,String deviceNameTestcases,String mobileSauceConnectProxyTc,String deviceOrientationTc,String enableAnimationsTc,String autoGrantPermissionTc,Boolean mobileDeviceTestcases,Boolean crossBrowserTestcases,String value
+                                   ) throws PluginException, ServiceException {
+       if(browser.equalsIgnoreCase("Chrome (headless)")|| browser.equalsIgnoreCase("Firefox (headless)"))
         {
         	String[] splited = browser.split(" ");
         	log.printf("list of platform version inside loop '%s'\n",splited[0]);
-        	browser=splited[0].toLowerCase();	
+        	browser=splited[0].toLowerCase();
+        	System.out.println("value of browser"+browser);
         	//environmentType="Local";
-        
+
         }
     	if(browser.equalsIgnoreCase("Chrome (headful)") || browser.equalsIgnoreCase("Firefox (headful)"))
         {
         	String[] splited = browser.split(" ");
         	log.printf("list of platform version inside loop '%s'\n",splited[0]);
-        	
-        	browser=splited[0].toLowerCase();	
+        	System.out.println("value of browser"+browser);
+        	browser=splited[0].toLowerCase();
         	environmentTypeTestcases="zalenium";
         }
     	for (TestCaseData t : runTestsData) {
@@ -370,7 +383,7 @@ class RunTestExecutions {
             ExecutedTaskResponse resp = svc.runTestCase(pd.getProjectId(), t.getTestScriptId(),
                     testExecutionName,
                     platform, browser,
-                    executionType,environmentTypeTestcases,browserVersionTestcases,sauceConnectProxyTestcases);
+                    executionType,environmentTypeTestcases,browserVersionTestcases,sauceConnectProxyTestcases,mobileplatformTestcases,mobilePlatformVersionTc,deviceNameTestcases,mobileSauceConnectProxyTc,deviceOrientationTc,enableAnimationsTc,autoGrantPermissionTc,mobileDeviceTestcases,crossBrowserTestcases,value);
 
             // save execution id
             if (resp.getTasks().length != 1) {
