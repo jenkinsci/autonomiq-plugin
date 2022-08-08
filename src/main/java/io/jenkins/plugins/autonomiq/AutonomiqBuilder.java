@@ -2682,7 +2682,10 @@ else
 
         // mobile version Fetch
         private String[] getMobileversion(String mobileplatform,String aiqUrl, String login, Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
-            //System.out.println("value in mobile version"+mobileplatform);
+            if(mobileplatform.equalsIgnoreCase("Android (Beta)")){
+        		mobileplatform="Android";
+              }
+            System.out.println("value in mobile version"+mobileplatform);
         	int i =0;
         	String[] Mobileplatformversion= new String[100];
         	//Browser[0]="--select browser--";
