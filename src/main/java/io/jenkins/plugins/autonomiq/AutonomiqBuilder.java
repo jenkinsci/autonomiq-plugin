@@ -2682,10 +2682,7 @@ else
 
         // mobile version Fetch
         private String[] getMobileversion(String mobileplatform,String aiqUrl, String login, Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
-            if(mobileplatform.equalsIgnoreCase("Android (Beta)")){
-        		mobileplatform="Android";
-              }
-            System.out.println("value in mobile version"+mobileplatform);
+            //System.out.println("value in mobile version"+mobileplatform);
         	int i =0;
         	String[] Mobileplatformversion= new String[100];
         	//Browser[0]="--select browser--";
@@ -2718,8 +2715,6 @@ else
 
 
 	            		     }
-
-
 	            	 }
 
 				}
@@ -2736,10 +2731,10 @@ else
 
         //mobile device name
         private String[] getDevice(String mobileplatform,String mobileVersion,String aiqUrl, String login, Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
-            System.out.println("value in mobileplatform:-"+mobileplatform);
+            // System.out.println("value in mobileplatform:-"+mobileplatform);
 
-            System.out.println("value in mobileVersion"+mobileVersion);
-            System.out.println("value in mobileVersion length:-"+mobileVersion.length());
+            //System.out.println("value in mobileVersion"+mobileVersion);
+            //System.out.println("value in mobileVersion length:-"+mobileVersion.length());
         	int i =0;
         	String[] MobileDeviceName= new String[100];
         	//Browser[0]="--select browser--";
@@ -2769,23 +2764,17 @@ else
 	            		    	 {
 	            		    		 String DN=pD.getdevice();
 	            		    		 MobileDeviceName[i]=DN;
-	            		    		 System.out.println(MobileDeviceName[i]);
+	            		    		// System.out.println(MobileDeviceName[i]);
 		            		    		i++;
 	            		    	 }
-	            		    	 if (platformversion.contains(mobileVersion))
+	            		    	 if (platformversion.equalsIgnoreCase(mobileVersion))
 	            		    	 {
 	            		    		 String DN=pD.getdevice();
 	            		    		 MobileDeviceName[i]=DN;
-	            		    		 System.out.println(MobileDeviceName[i]);
+	            		    		// System.out.println(MobileDeviceName[i]);
 		            		    		i++;
 	            		    	 }
-
-
-
-
 	            		     }
-
-
 	            	 }
 
 				}
