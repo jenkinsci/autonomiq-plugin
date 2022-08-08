@@ -2127,6 +2127,10 @@ else
                 @QueryParameter Boolean httpProxy) {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
+        	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
+        		platformTestCases="Android";
+             }
+
         	if (environmentTypeTestcases.equalsIgnoreCase("Saucelabs") && platformTestCases.equalsIgnoreCase("Android"))
             	{
         			  String[] values = {"Portrait","Landscape"};
