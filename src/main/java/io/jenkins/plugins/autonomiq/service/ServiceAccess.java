@@ -289,6 +289,48 @@ public class ServiceAccess {
         }
     }
 
+      if (deviceName.contains("GoogleAPI Emulator")){
+           System.out.println("inside API Emulator"+deviceName);
+            String autoAcceptAlerts1="emulator";
+            String json1 = "{\"executionMode\":\""+ executionMode +"\",\"executionType\":\"smoke\",\"platformBrowserDetails\":[{\"environmentType\":\"saucelab_devices\",\"platform\":\""+platform+"\",\"platformVersion\":\""+mobilePlatformVersion+"\",\"browser\":\"Chrome\",\"browserVersion\":\"\",\"testcaseSessionIdMap\":{\"1432\":\"ASFBZReng\"},\"appiumVersion\":\"1.22.1\",\"deviceName\":\""+deviceName+"\",\"deviceOrientation\":\""+deviceOrientation+"\",\"extraCapabilities\":[],\"autoAcceptAlerts\":false,\"autoGrantPermission\":"+autoGrantPermission+",\"enableAnimations\":"+enableAnimations+",\"sauceConnectId\":\""+sauceConnectProxy+"\",\"deviceType\":\""+autoAcceptAlerts1+"\"}]}";
+            System.out.println("json response"+json1);
+            try {
+                     String resp = web.post(url, json1, token);
+
+                     ExecuteSuiteResponse respExec = AiqUtil.gson.fromJson(resp, ExecuteSuiteResponse.class);
+
+                     return respExec;
+
+                 } catch (Exception e) {
+                     throw new ServiceException(String.format("Exception running test suite id %d", testSuiteId), e);
+                 }
+
+
+         }
+      if ((!deviceName.contains("GoogleAPI Emulator"))&&(!deviceName.equalsIgnoreCase("NotApplicable"))){
+        	System.out.println("inside Real Device"+deviceName);
+            String autoAcceptAlerts1="real";
+            String json1 = "{\"executionMode\":\""+ executionMode +"\",\"executionType\":\"smoke\",\"platformBrowserDetails\":[{\"environmentType\":\"saucelab_devices\",\"platform\":\""+platform+"\",\"platformVersion\":\""+mobilePlatformVersion+"\",\"browser\":\"Chrome\",\"browserVersion\":\"\",\"testcaseSessionIdMap\":{\"1432\":\"ASFBZReng\"},\"appiumVersion\":\"1.22.1\",\"deviceName\":\""+deviceName+"\",\"deviceOrientation\":\""+deviceOrientation+"\",\"extraCapabilities\":[],\"autoAcceptAlerts\":false,\"autoGrantPermission\":"+autoGrantPermission+",\"enableAnimations\":"+enableAnimations+",\"sauceConnectId\":\""+sauceConnectProxy+"\",\"deviceType\":\""+autoAcceptAlerts1+"\"}]}";
+            System.out.println("json response"+json1);
+
+            	 try {
+                     String resp = web.post(url, json1, token);
+
+                     ExecuteSuiteResponse respExec = AiqUtil.gson.fromJson(resp, ExecuteSuiteResponse.class);
+
+                     return respExec;
+
+                 } catch (Exception e) {
+                     throw new ServiceException(String.format("Exception running test suite id %d", testSuiteId), e);
+                 }
+
+         }
+
+		return null;
+
+
+    }
+
     private <T> List<T> listForItem(T item) {
         List<T> l = new LinkedList<>();
         l.add(item);
@@ -343,10 +385,14 @@ public class ServiceAccess {
         String sessionId = createSession();
 
         String genUrl = String.format(genTestScriptsPath, aiqUrl, projectId);
+        System.out.println(genUrl);
+
 
         GenerateScriptRequestBody body = new GenerateScriptRequestBody(testCaseIds, sessionId, "",
                 false, true);
         String json = AiqUtil.gson.toJson(body);
+        System.out.println("script generation"+json);
+
 
         try {
 
