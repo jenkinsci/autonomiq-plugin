@@ -2682,10 +2682,7 @@ else
 
         // mobile version Fetch
         private String[] getMobileversion(String mobileplatform,String aiqUrl, String login, Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
-            if(mobileplatform.equalsIgnoreCase("Android (Beta)")){
-        		mobileplatform="Android";
-              }
-            System.out.println("value in mobile version"+mobileplatform);
+            //System.out.println("value in mobile version"+mobileplatform);
         	int i =0;
         	String[] Mobileplatformversion= new String[100];
         	//Browser[0]="--select browser--";
@@ -2712,8 +2709,17 @@ else
 	            		    	 if (platform.equalsIgnoreCase(mobileplatform))
 	            		    	 {
 	            		    		 String pv=pD.getplatformVersion();
-	            		    		 Mobileplatformversion[i]=pv;
+	            		    		 if (pv.contains("0")){
+	            		    	           int index = pv.indexOf(".");
+	            		    	        String pv1  = pv.substring(0,index);
+	            		    	        Mobileplatformversion[i]=pv1;
 		            		    		i++;
+
+	            		    	       }else{
+	            		    	    	   Mobileplatformversion[i]=pv;
+			            		    		i++;
+	            		    	       }
+
 	            		    	 }
 
 
@@ -2736,7 +2742,11 @@ else
         private String[] getDevice(String mobileplatform,String mobileVersion,String aiqUrl, String login, Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
             // System.out.println("value in mobileplatform:-"+mobileplatform);
 
-            //System.out.println("value in mobileVersion"+mobileVersion);
+        	if(mobileplatform.equalsIgnoreCase("Android (Beta)")){
+        		mobileplatform="Android";
+              }
+
+            System.out.println("value in mobileVersion"+mobileVersion);
             //System.out.println("value in mobileVersion length:-"+mobileVersion.length());
         	int i =0;
         	String[] MobileDeviceName= new String[100];
@@ -2760,9 +2770,11 @@ else
 	            		     String sp=env2.getsaucePassword();
 	            		     String su=env2.getsauceUsername();
 	            		     for(PlatformDetail pD:td) {
+
 	            		    	 String platformversion=pD.getplatformVersion();
 	            		    	 String platformversion1=pD.getdevice();
 	            		    	 String platform=pD.getplatform();
+
 	            		    	 if (platform.equalsIgnoreCase("Android") && mobileVersion.length()==0)
 	            		    	 {
 	            		    		 String DN=pD.getdevice();
@@ -2770,8 +2782,9 @@ else
 	            		    		// System.out.println(MobileDeviceName[i]);
 		            		    		i++;
 	            		    	 }
-	            		    	 if (platformversion.equalsIgnoreCase(mobileVersion))
+	            		    	 if (platformversion.contains(mobileVersion))
 	            		    	 {
+
 	            		    		 String DN=pD.getdevice();
 	            		    		 MobileDeviceName[i]=DN;
 	            		    		// System.out.println(MobileDeviceName[i]);
