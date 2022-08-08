@@ -137,7 +137,6 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
                             String environmentTypeTestcases,
                             String browserVersionTestcases,
     						String sauceConnectProxyTestcases,
-    						String sauceConnectProxyTestcases,
     						String mobileSauceConnectProxy,
     						String mobileSauceConnectProxyTc,
     					    String mobileplatformTestSuites,
@@ -809,7 +808,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
                         mobileplatformTestSuites, mobilePlatformVersion,deviceName, mobileSauceConnectProxy,
                         mobileExecutionMode, deviceOrientation,enableAnimations, autoGrantPermission, mobileRunSuiteList,
                         mobileplatformTestcases, mobilePlatformVersionTc, deviceNameTestcases, mobileSauceConnectProxyTc,
-                        deviceOrientationTc, enableAnimationsTc, autoGrantPermissionTc, mobileRunTestcaseList););
+                        deviceOrientationTc, enableAnimationsTc, autoGrantPermissionTc, mobileRunTestcaseList);
             } catch (PluginException e) {
                 log.println("Running test case failed with exception");
                 log.println(AiqUtil.getExceptionTrace(e));
@@ -1537,7 +1536,7 @@ else
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
         	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
-           	  platformTestCases="Android";
+           	  platformTestSuites="Android";
              }
 
         	if (environmentType.equalsIgnoreCase("Saucelabs") && platformTestSuites.equalsIgnoreCase("Android"))
@@ -1598,7 +1597,7 @@ else
         	System.out.println("browser testsuites"+browserTestSuites);
 
         	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
-           	  platformTestCases="Android";
+           	  platformTestSuites="Android";
              }
 
         	if (environmentType.equalsIgnoreCase("Saucelabs") && platformTestSuites.equalsIgnoreCase("Android"))
@@ -1940,7 +1939,7 @@ else
 
         @SuppressWarnings("unused")
         @POST
-        public ListBoxModel doFillDeviceNameItems(@QueryParameter String mobileplatformTestSuites,@QueryParameter String mobilePlatformVersion,@QueryParameter String aiqUrl,
+        public ListBoxModel doFillDeviceNameItems(@QueryParameter String environmentType,@QueryParameter String platformTestSuites,@QueryParameter String mobilePlatformVersion,@QueryParameter String aiqUrl,
                 @QueryParameter String login,
                 @QueryParameter Secret password,
                 @QueryParameter String proxyHost,
@@ -2068,6 +2067,9 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        	if(platformTestSuites.equalsIgnoreCase("Android (Beta)")){
+        		platformTestSuites="Android";
+             }
 
         	if (environmentType.equalsIgnoreCase("Saucelabs") && platformTestSuites.equalsIgnoreCase("Android"))
         	{
@@ -2343,6 +2345,9 @@ else
                 @QueryParameter Secret proxyPassword,
                 @QueryParameter Boolean httpProxy) {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
+        		platformTestCases="Android";
+             }
         	if (environmentTypeTestcases.equalsIgnoreCase("Saucelabs") && platformTestCases.equalsIgnoreCase("Android"))
         	{
     			   String[] values = {"false","true"};
@@ -2436,7 +2441,7 @@ else
 	            	 for (Environment t1:d)
 	            	 {
 	            		 String z = t1.getenvironmentType();
-	            		 if(!z.equalsIgnoreCase("Zalenium") && !z.equalsIgnoreCase("saucelab_devices")
+	            		 if(!z.equalsIgnoreCase("Zalenium") && !z.equalsIgnoreCase("saucelab_devices"))
 	            		 {
 	            			 //z="Remote";
 	            			 EnvironmentType[i]=z;
