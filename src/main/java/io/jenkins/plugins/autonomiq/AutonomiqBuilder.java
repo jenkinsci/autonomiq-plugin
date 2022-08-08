@@ -1535,7 +1535,7 @@ else
                 @QueryParameter Boolean httpProxy) throws ServiceException {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
-        	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
+        	if(platformTestSuites.equalsIgnoreCase("Android (Beta)")){
            	  platformTestSuites="Android";
              }
 
@@ -1596,7 +1596,7 @@ else
             System.out.println("env type"+environmentType);
         	System.out.println("browser testsuites"+browserTestSuites);
 
-        	if(platformTestCases.equalsIgnoreCase("Android (Beta)")){
+        	if(platformTestSuites.equalsIgnoreCase("Android (Beta)")){
            	  platformTestSuites="Android";
              }
 
