@@ -2091,7 +2091,7 @@ else
     		else if (environmentType.equalsIgnoreCase("Local"))
         	{
 
-        	   if (environmentType.equalsIgnoreCase("Linux"))
+        	   if (platformTestSuites.equalsIgnoreCase("Linux"))
         	   {
         		   String[] values = {"NotApplicable"};
        			//String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
