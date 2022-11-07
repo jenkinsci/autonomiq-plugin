@@ -2733,37 +2733,25 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         }
 
          // sauce connect
-        private String[] getSauceconnect(String aiqUrl, String login, Secret password, String proxyHost, String proxyPort,
-        String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
+        private String[] getSauceconnect(String aiqUrl, String login, Secret password, String proxyHost, String proxyPort, String proxyUser, Secret proxyPassword, Boolean httpProxy) throws ServiceException {
+
         	String[] sauceconnect= new String[12];
 
             try {
-                ServiceAccess svc = AutonomiqBuilder.getServiceAccess(proxyHost, proxyPort, proxyUser, proxyPassword,
-                aiqUrl, login, password, httpProxy);
+                ServiceAccess svc = AutonomiqBuilder.getServiceAccess(proxyHost, proxyPort, proxyUser, proxyPassword, aiqUrl, login, password, httpProxy);
                 GetSauceConnect sauceid =svc.getsauceconnect();
 
-                int length=sauceid.sauce_connect_ids().length;
-                int finallength=length+1;
-                if ( finallength == 1)
+                if (sauceid.sauce_connect_ids().length == 0)
                 {
-                	sauceconnect[0]="None";
+                	sauceconnect[0]="Tunnel id not available";
                 }
                 else {
-                	for(int j=0;j<finallength;j++)
+                	for(int j=0;j<sauceid.sauce_connect_ids().length;j++)
                 	{
-                		if(j==0)
-                		{
-                			sauceconnect[j]="None";
-                		}
-                		if(j!=0)
-                		{
-	                		sauceconnect[j]=sauceid.sauce_connect_ids()[j-1];
 
-                		}
-
+                		sauceconnect[j]=sauceid.sauce_connect_ids()[j];
                 	}
                 }
-
             } catch (Exception e) {
                 throw new ServiceException("Exception in getting sauceconnect values");
             }
