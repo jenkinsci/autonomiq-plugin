@@ -1505,8 +1505,8 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
                 @QueryParameter Boolean httpProxy) throws ServiceException {
 
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
-//             String[] values= getEnvironmentType(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
-            String[] values = {"saucelabs","local"};
+            String[] values= getEnvironmentType(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+//             String[] values = {"saucelabs","local"};
         	Option[] options = buildSimpleOptions(values);
 
 
