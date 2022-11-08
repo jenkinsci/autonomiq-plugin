@@ -1250,8 +1250,7 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
 
         	if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0) {
 
-//             String[] values= getEnvironmentType(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
-            String[] values = {"saucelabs","local"};
+            String[] values= getEnvironmentType(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
 
             Option[] options = buildSimpleOptions(values);
 
