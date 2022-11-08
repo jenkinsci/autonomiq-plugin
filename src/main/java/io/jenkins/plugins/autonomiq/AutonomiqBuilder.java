@@ -1583,20 +1583,10 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         	Jenkins.get().checkPermission(Jenkins.ADMINISTER);
 
         	if(platformTestSuites.equalsIgnoreCase("Android (Beta)")){
-           	  platformTestSuites="Android";
-             }
-
-        	if (environmentType.equalsIgnoreCase("Saucelabs") && platformTestSuites.equalsIgnoreCase("Android"))
+    		  platformTestSuites="Android";
+          }
+      	 if (environmentType.equalsIgnoreCase("Saucelabs") && platformTestSuites.equalsIgnoreCase("Android"))
         	{
-        	        String[] values1= getEnvironmentType(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
-                    Option[] options1 = buildSimpleOptions(values1);
-                    if(options1.length==1)
-                    {
-                        String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
-                        Option[] options = buildSimpleOptions(values);
-                        return new ListBoxModel(options);
-                    }
-
        				//String[] values= getBrowser(environmentType,platformTestSuites,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
         		    String[] values = {"NotApplicable"};
         		    Option[] options = buildSimpleOptions(values);
@@ -1624,6 +1614,15 @@ public class AutonomiqBuilder extends Builder implements SimpleBuildStep {
         	}
         	else if (aiqUrl.length() > 0 && login.length() > 0 && Secret.toString(password).length() > 0)
         	{
+
+                String[] values1= getEnvironmentType(aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
+            	Option[] options1 = buildSimpleOptions(values1);
+            	if(options1.length==1)
+            	{
+           			String[] values = {"Chrome (headless)","Firefox (headless)","Chrome (headful)","Firefox (headful)"};  //, "Windows"};
+                    Option[] options = buildSimpleOptions(values);
+                    return new ListBoxModel(options);
+            	}
      			String[] values= getBrowser(environmentType,platformTestSuites,aiqUrl, login, password, proxyHost, proxyPort, proxyUser, proxyPassword, httpProxy);
 
                  Option[] options = buildSimpleOptions(values);
